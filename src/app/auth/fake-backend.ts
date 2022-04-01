@@ -1,11 +1,44 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { TipoUser, User } from '../models/user';
 
 // array in local storage for registered users
-let users: User[] = JSON.parse(localStorage.getItem('usuarios')) || [];
+let users = <User[]>JSON.parse(localStorage.getItem('usuarios')) || [];
+
+let prof: User = new User();
+prof.id = 0,
+    prof.email = 'prof@email.com',
+    prof.senha = 'prof123',
+    prof.rgm = '12345678',
+    prof.cpf = '11111111111',
+    prof.nome = 'Andrea',
+    prof.sobrenome = 'Martins',
+    prof.tipoUsuario = TipoUser.professor
+
+let adm: User = new User();
+adm.id = 0,
+    adm.email = 'adm@email.com',
+    adm.senha = 'adm123',
+    adm.rgm = '87654321',
+    adm.cpf = '11111111100',
+    adm.nome = 'Adailton',
+    adm.sobrenome = 'Pereira',
+    adm.tipoUsuario = TipoUser.adm
+
+let ok = true;
+
+if (users.find(x => x.cpf === prof.cpf || adm.cpf)) {
+    ok = false;
+}
+
+if (ok) {
+    prof.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+    users.push(prof);
+    users.push(adm);
+    localStorage.setItem('usuarios', JSON.stringify(users));
+}
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -43,21 +76,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function autenticar() {
             const { acesso, senha } = body;
 
-            let user : User;
+            let user: User;
 
-            if (acesso.lenght === 8) {
+            if (acesso.includes('@')) {
+                //email
+                user = users.find(x => x.email === acesso && x.senha === senha);
+            }
+            else if (acesso.lenght === 8) {
                 //rgm
                 user = users.find(x => x.rgm === acesso && x.senha === senha);
-
             }
             else if (acesso.lenght == 11) {
                 //cpf
                 user = users.find(x => x.cpf === acesso && x.senha === senha);
-
-            }
-            else if (acesso.includes('@')) {
-                //email
-                user = users.find(x => x.email === acesso && x.senha === senha);
             }
 
             if (!user) return error('Acesso ou Senha incorreto');
@@ -68,7 +99,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 rgm: user.rgm,
                 cpf: user.cpf,
                 nome: user.nome,
-                sobrenome: user.sobremone,
+                sobrenome: user.sobrenome,
                 tipoUsuario: user.tipoUsuario,
                 token: 'fake-jwt-token'
             })
@@ -77,13 +108,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function cadastro() {
             const user = body
 
+            console.log('usuaros', users)
+
             if (users.find(x => x.cpf === user.cpf)) {
                 return error('Username "' + user.username + '" is already taken')
             }
 
             user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
             users.push(user);
-            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('usuarios', JSON.stringify(users));
             return ok();
         }
 
@@ -149,10 +182,3 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
     }
 }
-
-export const fakeBackendProvider = {
-    // use fake backend in place of Http service for backend-less development
-    provide: HTTP_INTERCEPTORS,
-    useClass: FakeBackendInterceptor,
-    multi: true
-};

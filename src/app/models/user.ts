@@ -5,7 +5,7 @@ export class User {
     rgm: string;
     cpf: string;
     nome: string;
-    sobremone: string;
+    sobrenome: string;
     tipoUsuario: TipoUser
     token: string;
 }

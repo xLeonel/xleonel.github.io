@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { TipoUser, User } from 'src/app/models/user';
 import { AccountService } from 'src/app/services/account.service';
 import { AlertService } from 'src/app/services/alert.service';
 
@@ -14,7 +15,6 @@ export class CadastroComponent implements OnInit {
     form: FormGroup;
     loading = false;
     submitted = false;
-
 
     //get form fields
     get formulario() { return this.form.controls; }
@@ -34,12 +34,13 @@ export class CadastroComponent implements OnInit {
         }
 
         this.form = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            rgm: ['', Validators.required],
-            cpf: ['', Validators.required, Validators.minLength(11), Validators.maxLength(11)],
-            email: ['', Validators.required, Validators.email],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            nome: ['', [Validators.required]],
+            sobrenome: ['', [Validators.required]],
+            rgm: ['', [Validators.required, Validators.minLength(8)]],
+            cpf: ['', [Validators.required, Validators.minLength(11)]],
+            email: ['', [Validators.required, Validators.email]],
+            senha: ['', [Validators.required, Validators.minLength(6)]],
+            tipoUsuario: [TipoUser.aluno, Validators.required],
         });
     }
 
@@ -53,6 +54,7 @@ export class CadastroComponent implements OnInit {
         }
 
         this.loading = true;
+
         this.accountService.register(this.form.value)
             .pipe(first())
             .subscribe(

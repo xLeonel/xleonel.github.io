@@ -11,8 +11,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './auth/jwt.interceptor';
 import { ErrorInterceptor } from './auth/error.interceptor';
-import { fakeBackendProvider } from './auth/fake-backend';
+import { FakeBackendInterceptor } from './auth/fake-backend';
 import { AlertaComponent } from './components/alerta/alerta.component';
+import { TrataTipoUserPipe } from './pipes/trata-tipo-user.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AlertaComponent } from './components/alerta/alerta.component';
     LoginComponent,
     CadastroComponent,
     HomeComponent,
-    AlertaComponent
+    AlertaComponent,
+    TrataTipoUserPipe
   ],
   imports: [
     BrowserModule,
@@ -32,9 +34,7 @@ import { AlertaComponent } from './components/alerta/alerta.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
-    // provider used to create fake backend
-    fakeBackendProvider
+    { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

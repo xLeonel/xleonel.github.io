@@ -3,54 +3,59 @@
     <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="registrar()">
             <div class="form-group">
-                <label for="firstName">Nome</label>
-                <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.firstName.errors }" />
-                <div *ngIf="submitted && formulario.firstName.errors" class="invalid-feedback">
-                    <div *ngIf="formulario.firstName.errors.required">Nome é obrigatório</div>
+                <label for="nome">Nome</label>
+                <input type="text" formControlName="nome" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.nome.errors }"placeholder="Insira seu nome" />
+                <div *ngIf="submitted && formulario.nome.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.nome.errors.required">Nome é obrigatório</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="lastName">Sobrenome</label>
-                <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.lastName.errors }" />
-                <div *ngIf="submitted && formulario.lastName.errors" class="invalid-feedback">
-                    <div *ngIf="formulario.lastName.errors.required">Sobrenome é obrigatório</div>
-                </div>as
+                <label for="sobrenome">Sobrenome</label>
+                <input type="text" formControlName="sobrenome" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.sobrenome.errors }" placeholder="Insira seu sobrenome"/>
+                <div *ngIf="submitted && formulario.sobrenome.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.sobrenome.errors.required">Sobrenome é obrigatório</div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="rgm">RGM</label>
-                <input type="text" formControlName="rgm" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.rgm.errors }" />
+                <input type="text" formControlName="rgm" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.rgm.errors }" placeholder="Insira seu RGM" maxlength="8"/>
                 <div *ngIf="submitted && formulario.rgm.errors" class="invalid-feedback">
                     <div *ngIf="formulario.rgm.errors.required">RGM é obrigatório</div>
+                    <div *ngIf="formulario.rgm.errors.minlength">RGM precisa ter ao menos 8 caracteres</div>
+                    <div *ngIf="formulario.rgm.errors.maxlength">RGM precisa ter no maximo 8 caracteres</div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="cpf">CPF</label>
-                <input type="text" formControlName="cpf" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.cpf.errors }" />
+                <input type="text" formControlName="cpf" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.cpf.errors }" placeholder="Insira seu CPF" maxlength="11"/>
                 <div *ngIf="submitted && formulario.cpf.errors" class="invalid-feedback">
                     <div *ngIf="formulario.cpf.errors.required">CPF é obrigatório</div>
+                    <div *ngIf="formulario.cpf.errors.minlength">CPF precisa ter ao menos 11 caracteres</div>
+                    <div *ngIf="formulario.cpf.errors.maxlength">CPF precisa ter no maximo 11 caracteres</div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.email.errors }" />
+                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.email.errors }" placeholder="Insira seu email"/>
                 <div *ngIf="submitted && formulario.email.errors" class="invalid-feedback">
                     <div *ngIf="formulario.email.errors.required">Email é obrigatório</div>
+                    <div *ngIf="formulario.email.errors.email">Email é obrigatório</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">Senha</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.password.errors }" />
-                <div *ngIf="submitted && formulario.password.errors" class="invalid-feedback">
-                    <div *ngIf="formulario.password.errors.required">Senha é obrigatório</div>
-                    <div *ngIf="formulario.password.errors.minlength">Senha precisa ter ao menos 6 caracteres</div>
+                <label for="senha">Senha</label>
+                <input type="senha" formControlName="senha" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.senha.errors }"  placeholder="Insira sua senha"/>
+                <div *ngIf="submitted && formulario.senha.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.senha.errors.required">Senha é obrigatório</div>
+                    <div *ngIf="formulario.senha.errors.minlength">Senha precisa ter ao menos 6 caracteres</div>
                 </div>
             </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Register
+                    Registrar
                 </button>
-                <a routerLink="../login" class="btn btn-link">Cancel</a>
+                <a routerLink="../login" class="btn btn-link">Voltar</a>
             </div>
         </form>
     </div>
