@@ -1,8 +1,17 @@
 export class User {
-    id: string;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
+    id: number;
+    email: string;
+    senha: string;
+    rgm: string;
+    cpf: string;
+    nome: string;
+    sobremone: string;
+    tipoUsuario: TipoUser
     token: string;
+}
+
+export enum TipoUser {
+    aluno,
+    professor,
+    adm
 }

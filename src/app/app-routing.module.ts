@@ -5,13 +5,10 @@ import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 
-
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: CadastroComponent },
-
-  // otherwise redirect to home
+  { path: 'cadastro', component: CadastroComponent },
   { path: '**', redirectTo: '' }
 ];
 

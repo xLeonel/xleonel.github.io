@@ -17,7 +17,7 @@ export class AccountService {
       private router: Router,
       private http: HttpClient
   ) {
-      this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+      this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('usuario')));
       this.user = this.userSubject.asObservable();
   }
 
@@ -25,11 +25,11 @@ export class AccountService {
       return this.userSubject.value;
   }
 
-  login(username, password) {
-      return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { username, password })
+  login(acesso, senha) {
+      return this.http.post<User>(`${environment.apiUrl}/login`, { acesso, senha })
           .pipe(map(user => {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
-              localStorage.setItem('user', JSON.stringify(user));
+              localStorage.setItem('usuario', JSON.stringify(user));
               this.userSubject.next(user);
               return user;
           }));
@@ -37,13 +37,13 @@ export class AccountService {
 
   logout() {
       // remove user from local storage and set current user to null
-      localStorage.removeItem('user');
+      localStorage.removeItem('usuario');
       this.userSubject.next(null);
       this.router.navigate(['/login']);
   }
 
   register(user: User) {
-      return this.http.post(`${environment.apiUrl}/users/register`, user);
+      return this.http.post(`${environment.apiUrl}/cadastro`, user);
   }
 
   getAll() {
@@ -70,7 +70,7 @@ export class AccountService {
           }));
   }
 
-  delete(id: string) {
+  delete(id: number) {
       return this.http.delete(`${environment.apiUrl}/users/${id}`)
           .pipe(map(x => {
               // auto logout if the logged in user deleted their own record

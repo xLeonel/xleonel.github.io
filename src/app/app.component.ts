@@ -9,14 +9,4 @@ import { User } from './models/user';
 })
 export class AppComponent {
   title = 'valida-presenca';
-
-  user: User;
-
-  constructor(private accountService: AccountService) {
-      this.accountService.user.subscribe(x => this.user = x);
-  }
-
-  logout() {
-      this.accountService.logout();
-  }
 }

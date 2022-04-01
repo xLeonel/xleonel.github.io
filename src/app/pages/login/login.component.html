@@ -1,19 +1,19 @@
 <div class="card">
     <h4 class="card-header">Login</h4>
     <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form" (ngSubmit)="login()">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+                <label for="username">Acesso</label>
+                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.username.errors }" placeholder="Insira seu email, rgm ou cpf"/>
+                <div *ngIf="submitted && formulario.username.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.username.errors.required">Acesso é obrigatório</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
+                <label for="password">Senha</label>
+                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.password.errors }" placeholder="Insira sua senha"/>
+                <div *ngIf="submitted && formulario.password.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.password.errors.required">Senha é obrigatório</div>
                 </div>
             </div>
             <div class="form-group">
@@ -21,7 +21,7 @@
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                     Login
                 </button>
-                <a routerLink="../register" class="btn btn-link">Register</a>
+                <a routerLink="/cadastro" class="btn btn-link">Registrar</a>
             </div>
         </form>
     </div>

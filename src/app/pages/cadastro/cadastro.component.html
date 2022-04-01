@@ -1,34 +1,48 @@
 ﻿<div class="card">
     <h4 class="card-header">Register</h4>
     <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form" (ngSubmit)="registrar()">
             <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-                <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                    <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                <label for="firstName">Nome</label>
+                <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.firstName.errors }" />
+                <div *ngIf="submitted && formulario.firstName.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.firstName.errors.required">Nome é obrigatório</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                    <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                <label for="lastName">Sobrenome</label>
+                <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.lastName.errors }" />
+                <div *ngIf="submitted && formulario.lastName.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.lastName.errors.required">Sobrenome é obrigatório</div>
+                </div>as
+            </div>
+            <div class="form-group">
+                <label for="rgm">RGM</label>
+                <input type="text" formControlName="rgm" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.rgm.errors }" />
+                <div *ngIf="submitted && formulario.rgm.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.rgm.errors.required">RGM é obrigatório</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+                <label for="cpf">CPF</label>
+                <input type="text" formControlName="cpf" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.cpf.errors }" />
+                <div *ngIf="submitted && formulario.cpf.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.cpf.errors.required">CPF é obrigatório</div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                <label for="email">Email</label>
+                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.email.errors }" />
+                <div *ngIf="submitted && formulario.email.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.email.errors.required">Email é obrigatório</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.password.errors }" />
+                <div *ngIf="submitted && formulario.password.errors" class="invalid-feedback">
+                    <div *ngIf="formulario.password.errors.required">Senha é obrigatório</div>
+                    <div *ngIf="formulario.password.errors.minlength">Senha precisa ter ao menos 6 caracteres</div>
                 </div>
             </div>
             <div class="form-group">

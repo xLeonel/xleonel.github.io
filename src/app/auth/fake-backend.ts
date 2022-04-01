@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { TipoUser, User } from '../models/user';
 
 // array in local storage for registered users
-let users = JSON.parse(localStorage.getItem('users')) || [];
+let users: User[] = JSON.parse(localStorage.getItem('usuarios')) || [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -20,10 +21,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function handleRoute() {
             switch (true) {
-                case url.endsWith('/users/authenticate') && method === 'POST':
-                    return authenticate();
-                case url.endsWith('/users/register') && method === 'POST':
-                    return register();
+                case url.endsWith('/login') && method === 'POST':
+                    return autenticar();
+                case url.endsWith('/cadastro') && method === 'POST':
+                    return cadastro();
                 case url.endsWith('/users') && method === 'GET':
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
@@ -35,28 +36,48 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
-            }    
+            }
         }
 
-        // route functions
+        // mock rotas
+        function autenticar() {
+            const { acesso, senha } = body;
 
-        function authenticate() {
-            const { username, password } = body;
-            const user = users.find(x => x.username === username && x.password === password);
-            if (!user) return error('Username or password is incorrect');
+            let user : User;
+
+            if (acesso.lenght === 8) {
+                //rgm
+                user = users.find(x => x.rgm === acesso && x.senha === senha);
+
+            }
+            else if (acesso.lenght == 11) {
+                //cpf
+                user = users.find(x => x.cpf === acesso && x.senha === senha);
+
+            }
+            else if (acesso.includes('@')) {
+                //email
+                user = users.find(x => x.email === acesso && x.senha === senha);
+            }
+
+            if (!user) return error('Acesso ou Senha incorreto');
             return ok({
                 id: user.id,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
+                email: user.email,
+                senha: user.senha,
+                rgm: user.rgm,
+                cpf: user.cpf,
+                nome: user.nome,
+                sobrenome: user.sobremone,
+                tipoUsuario: user.tipoUsuario,
                 token: 'fake-jwt-token'
             })
         }
 
-        function register() {
+        function cadastro() {
             const user = body
 
-            if (users.find(x => x.username === user.username)) {
+            if (users.find(x => x.cpf === user.cpf)) {
                 return error('Username "' + user.username + '" is already taken')
             }
 
@@ -104,7 +125,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok();
         }
 
-        // helper functions
+        // status code
 
         function ok(body?) {
             return of(new HttpResponse({ status: 200, body }))
