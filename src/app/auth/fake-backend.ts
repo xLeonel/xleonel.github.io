@@ -29,13 +29,22 @@ adm.id = 0,
 
 let ok = true;
 
-if (users.find(x => x.cpf === prof.cpf || adm.cpf)) {
+if (users.find(x => x.cpf === prof.cpf)) {
     ok = false;
 }
 
 if (ok) {
     prof.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
     users.push(prof);
+    localStorage.setItem('usuarios', JSON.stringify(users));
+}
+
+if (users.find(x => x.cpf === adm.cpf)) {
+    ok = false;
+}
+
+if (ok) {
+    adm.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
     users.push(adm);
     localStorage.setItem('usuarios', JSON.stringify(users));
 }
@@ -58,8 +67,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return autenticar();
                 case url.endsWith('/cadastro') && method === 'POST':
                     return cadastro();
-                case url.endsWith('/users') && method === 'GET':
-                    return getUsers();
+                // case url.endsWith('/users') && method === 'GET':
+                //     return getUsers();
+                case url.match(/\/role\/\d+$/) && method === 'GET':
+                    return getUsersByRole();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
                 case url.match(/\/users\/\d+$/) && method === 'PUT':
@@ -108,10 +119,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function cadastro() {
             const user = body
 
-            console.log('usuaros', users)
-
             if (users.find(x => x.cpf === user.cpf)) {
-                return error('Username "' + user.username + '" is already taken')
+                return error('Já existe um CPF cadastrado')
+            }
+
+            if (users.find(x => x.rgm === user.rgm)) {
+                return error('Já existe um RGM cadastrado')
+            }
+
+            if (users.find(x => x.email === user.email)) {
+                return error('Já existe um email cadastrado')
             }
 
             user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
@@ -132,6 +149,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(user);
         }
 
+        function getUsersByRole() {
+            if (!isLoggedIn()) return unauthorized();
+
+            const user = users.filter(x => x.tipoUsuario === idFromUrl());
+            return ok(user);
+        }
+
         function updateUser() {
             if (!isLoggedIn()) return unauthorized();
 
@@ -145,7 +169,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             // update and save user
             Object.assign(user, params);
-            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('usuarios', JSON.stringify(users));
 
             return ok();
         }
@@ -154,7 +178,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (!isLoggedIn()) return unauthorized();
 
             users = users.filter(x => x.id !== idFromUrl());
-            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('usuarios', JSON.stringify(users));
             return ok();
         }
 

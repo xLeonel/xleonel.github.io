@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './pages/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -14,6 +14,8 @@ import { ErrorInterceptor } from './auth/error.interceptor';
 import { FakeBackendInterceptor } from './auth/fake-backend';
 import { AlertaComponent } from './components/alerta/alerta.component';
 import { TrataTipoUserPipe } from './pipes/trata-tipo-user.pipe';
+import { AlunosComponent } from './pages/alunos/alunos.component';
+import { AddEditComponent } from './pages/add-edit/add-edit.component';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,16 @@ import { TrataTipoUserPipe } from './pipes/trata-tipo-user.pipe';
     CadastroComponent,
     HomeComponent,
     AlertaComponent,
-    TrataTipoUserPipe
+    TrataTipoUserPipe,
+    AlunosComponent,
+    AddEditComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user';
+import { TipoUser, User } from '../models/user';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 
@@ -49,6 +49,10 @@ export class AccountService {
   getAll() {
       return this.http.get<User[]>(`${environment.apiUrl}/users`);
   }
+
+  getAllByRole(tipoUser: TipoUser) {
+    return this.http.get<User[]>(`${environment.apiUrl}/usuarios/role/${tipoUser}`);
+}
 
   getById(id: string) {
       return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
