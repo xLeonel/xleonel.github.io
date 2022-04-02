@@ -7,7 +7,7 @@ export class User {
     nome: string;
     sobrenome: string;
     tipoUsuario: TipoUser
-    token: string;
+    token?: string;
 }
 
 export enum TipoUser {
