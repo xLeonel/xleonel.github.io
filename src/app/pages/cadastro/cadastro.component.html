@@ -1,9 +1,9 @@
 ﻿<section class="text-center">
     <div class="p-5 bg-image" style="
-          background-image: url('assets/background.png');
-          height: 300px;
+          background-image: url('https://www.enembrasil.com.br/wp-content/uploads/2017/07/%5ED687D5737FE8D693267980B831EF1AC3F78564E953571581B2%5Epimgpsh_fullsize_distr.png');
+          height: 250px;
           background-repeat: no-repeat;
-          background-size: 100% 100%;
+          width: 100%;
           "></div>
 
     <div class="card mx-4 mx-md-5 shadow-5-strong" style="
@@ -14,6 +14,7 @@
         <div class="card-body py-5 px-md-5">
 
             <div class="row d-flex justify-content-center">
+
                 <div class="col-lg-8">
                     <h2 class="fw-bold mb-5">Cadastro</h2>
                     <form [formGroup]="form" (ngSubmit)="registrar()">
@@ -48,22 +49,30 @@
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <label for="rgm">RGM</label>
-                                    <input type="text" formControlName="rgm" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.rgm.errors }" placeholder="Insira seu RGM" maxlength="8"/>
+                                    <input type="text" formControlName="rgm" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && formulario.rgm.errors }"
+                                        placeholder="Insira seu RGM" maxlength="8" />
                                     <div *ngIf="submitted && formulario.rgm.errors" class="invalid-feedback">
                                         <div *ngIf="formulario.rgm.errors.required">RGM é obrigatório</div>
-                                        <div *ngIf="formulario.rgm.errors.minlength">RGM precisa ter ao menos 8 caracteres</div>
-                                        <div *ngIf="formulario.rgm.errors.maxlength">RGM precisa ter no maximo 8 caracteres</div>
+                                        <div *ngIf="formulario.rgm.errors.minlength">RGM precisa ter ao menos 8
+                                            caracteres</div>
+                                        <div *ngIf="formulario.rgm.errors.maxlength">RGM precisa ter no maximo 8
+                                            caracteres</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-6 mb-4">
                                 <label for="cpf">CPF</label>
-                                <input type="text" formControlName="cpf" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.cpf.errors }" placeholder="Insira seu CPF" maxlength="11"/>
+                                <input type="text" formControlName="cpf" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && formulario.cpf.errors }"
+                                    placeholder="Insira seu CPF" maxlength="11" />
                                 <div *ngIf="submitted && formulario.cpf.errors" class="invalid-feedback">
                                     <div *ngIf="formulario.cpf.errors.required">CPF é obrigatório</div>
-                                    <div *ngIf="formulario.cpf.errors.minlength">CPF precisa ter ao menos 11 caracteres</div>
-                                    <div *ngIf="formulario.cpf.errors.maxlength">CPF precisa ter no maximo 11 caracteres</div>
+                                    <div *ngIf="formulario.cpf.errors.minlength">CPF precisa ter ao menos 11 caracteres
+                                    </div>
+                                    <div *ngIf="formulario.cpf.errors.maxlength">CPF precisa ter no maximo 11 caracteres
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +81,9 @@
                             <div class="col-md-6 mb-4">
                                 <div class="form-outline">
                                     <label for="email">Email</label>
-                                    <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.email.errors }" placeholder="Insira seu email"/>
+                                    <input type="text" formControlName="email" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted && formulario.email.errors }"
+                                        placeholder="Insira seu email" />
                                     <div *ngIf="submitted && formulario.email.errors" class="invalid-feedback">
                                         <div *ngIf="formulario.email.errors.required">Email é obrigatório</div>
                                         <div *ngIf="formulario.email.errors.email">Email é obrigatório</div>
@@ -82,19 +93,29 @@
 
                             <div class="col-md-6 mb-4">
                                 <label for="senha">Senha</label>
-                                <input type="senha" formControlName="senha" class="form-control" [ngClass]="{ 'is-invalid': submitted && formulario.senha.errors }"  placeholder="Insira sua senha"/>
+                                <input type="senha" formControlName="senha" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && formulario.senha.errors }"
+                                    placeholder="Insira sua senha" />
                                 <div *ngIf="submitted && formulario.senha.errors" class="invalid-feedback">
                                     <div *ngIf="formulario.senha.errors.required">Senha é obrigatório</div>
-                                    <div *ngIf="formulario.senha.errors.minlength">Senha precisa ter ao menos 6 caracteres</div>
+                                    <div *ngIf="formulario.senha.errors.minlength">Senha precisa ter ao menos 6
+                                        caracteres</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Submit button -->
-                        <button [disabled]="loading" type="submit" class="btn btn-primary btn-block mb-4">
-                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                            Cadastre-se
-                        </button>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-4 mb-2">
+                                <button [disabled]="loading" type="submit" class="btn btn-primary btn-block mb-3">
+                                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                    Cadastre-se
+                                </button>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <a routerLink="../login" class="btn btn-primary btn-block mb-3" style="color: #fff;">Voltar</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
