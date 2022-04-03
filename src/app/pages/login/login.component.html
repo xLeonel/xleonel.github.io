@@ -11,35 +11,37 @@
               </div>
             </div>
 
-                <form [formGroup]="form" (ngSubmit)="login()">
+            <form [formGroup]="form" (ngSubmit)="login()">
 
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="username">Acesso</label>
-              <input type="text" formControlName="username" class="form-control form-control-lg"
-                [ngClass]="{ 'is-invalid': submitted && formulario.username.errors }"
-                placeholder="Insira seu email, rgm ou cpf" />
-              <div *ngIf="submitted && formulario.username.errors" class="invalid-feedback">
-                <div *ngIf="formulario.username.errors.required">Acesso é obrigatório</div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="username">Acesso</label>
+                <input type="text" formControlName="username" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && formulario.username.errors }"
+                  placeholder="Insira seu email, rgm ou cpf" />
+                <div *ngIf="submitted && formulario.username.errors" class="invalid-feedback">
+                  <div *ngIf="formulario.username.errors.required">Acesso é obrigatório</div>
+                </div>
               </div>
-            </div>
 
-            <div class="form-outline mb-4">
-              <label class="form-label" for="password">Senha</label>
-              <input type="password" formControlName="password" class="form-control form-control form-control-lg"
-                [ngClass]="{ 'is-invalid': submitted && formulario.password.errors }" placeholder="Insira sua senha" />
-              <div *ngIf="submitted && formulario.password.errors" class="invalid-feedback">
-                <div *ngIf="formulario.password.errors.required">Senha é obrigatório</div>
+              <div class="form-outline mb-4">
+                <label class="form-label" for="password">Senha</label>
+                <input type="password" formControlName="password" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && formulario.password.errors }"
+                  placeholder="Insira sua senha" />
+                <div *ngIf="submitted && formulario.password.errors" class="invalid-feedback">
+                  <div *ngIf="formulario.password.errors.required">Senha é obrigatório</div>
+                </div>
+                <p class="small mb-2 pb-lg-2 d-flex justify-content-end"><a class="text-muted" href="#!">Esqueceu a
+                    senha?</a></p>
               </div>
-              <p class="small mb-2 pb-lg-2 d-flex justify-content-end"><a class="text-muted" href="#!">Esqueceu a
-                  senha?</a></p>
-            </div>
 
-            <button [disabled]="loading" class="btn btn-lg btn-block mb-4" style="background-color: #00346d; color: #fff;">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-              Login
-            </button>
-            <p>Não possui conta ainda? <a routerLink="/cadastro" class="text-blue-50 fw-bold">Cadastre-se</a></p>
-          </form>
+              <button [disabled]="loading" class="btn btn-block mb-4"
+                style="background-color: #00346d; color: #fff;">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Login
+              </button>
+              <p>Não possui conta ainda? <a routerLink="/cadastro" class="text-blue-50 fw-bold">Cadastre-se</a></p>
+            </form>
           </div>
         </div>
       </div>
