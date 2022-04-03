@@ -1506,8 +1506,8 @@ function CadastroComponent_div_19_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function CadastroComponent_div_19_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 45);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_19_div_1_Template, 2, 0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_19_div_1_Template, 2, 0, "div", 47);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -1520,8 +1520,8 @@ function CadastroComponent_div_25_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function CadastroComponent_div_25_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 45);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_25_div_1_Template, 2, 0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_25_div_1_Template, 2, 0, "div", 47);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -1544,10 +1544,10 @@ function CadastroComponent_div_31_div_3_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function CadastroComponent_div_31_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 45);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_31_div_1_Template, 2, 0, "div", 46);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_31_div_2_Template, 2, 0, "div", 46);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, CadastroComponent_div_31_div_3_Template, 2, 0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_31_div_1_Template, 2, 0, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_31_div_2_Template, 2, 0, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, CadastroComponent_div_31_div_3_Template, 2, 0, "div", 47);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -1569,9 +1569,9 @@ function CadastroComponent_div_37_div_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function CadastroComponent_div_37_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 45);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_37_div_1_Template, 2, 0, "div", 46);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_37_div_2_Template, 2, 0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_37_div_1_Template, 2, 0, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_37_div_2_Template, 2, 0, "div", 47);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -1591,9 +1591,9 @@ function CadastroComponent_div_43_div_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function CadastroComponent_div_43_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 45);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_43_div_1_Template, 2, 0, "div", 46);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_43_div_2_Template, 2, 0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_43_div_1_Template, 2, 0, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_43_div_2_Template, 2, 0, "div", 47);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -1618,10 +1618,10 @@ function CadastroComponent_div_53_div_3_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function CadastroComponent_div_53_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 45);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_53_div_1_Template, 2, 0, "div", 46);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_53_div_2_Template, 2, 0, "div", 46);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, CadastroComponent_div_53_div_3_Template, 2, 0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, CadastroComponent_div_53_div_1_Template, 2, 0, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, CadastroComponent_div_53_div_2_Template, 2, 0, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](3, CadastroComponent_div_53_div_3_Template, 2, 0, "div", 47);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
@@ -1633,7 +1633,7 @@ function CadastroComponent_div_53_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx_r5.formulario.rgm.errors.maxlength);
 } }
 function CadastroComponent_span_91_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "span", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "span", 48);
 } }
 const _c0 = function (a0) { return { "is-invalid": a0 }; };
 class CadastroComponent {
@@ -1682,7 +1682,7 @@ class CadastroComponent {
     }
 }
 CadastroComponent.ɵfac = function CadastroComponent_Factory(t) { return new (t || CadastroComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_account_service__WEBPACK_IMPORTED_MODULE_5__["AccountService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_alert_service__WEBPACK_IMPORTED_MODULE_6__["AlertService"])); };
-CadastroComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: CadastroComponent, selectors: [["app-cadastro"]], decls: 96, vars: 27, consts: [[1, "h-100", "h-custom", "overflow-auto", 2, "background-color", "#01376d"], [1, "container", "py-5", "h-100"], [1, "row", "d-flex", "justify-content-center", "align-items-center", "h-100"], [1, "col-12"], [1, "card", "card-registration", "card-registration-2", 2, "border-radius", "15px"], [1, "card-body", "p-0"], [3, "formGroup", "ngSubmit"], [1, "row", "g-0"], [1, "col-lg-6"], [1, "p-5"], [1, "d-flex", "justify-content-center"], [1, "d-flex", "justify-content-center", 2, "width", "200px"], ["src", "assets/logo.png", 1, "mb-5", 2, "width", "100%"], [1, "row"], [1, "col-md-6", "mb-4", "pb-2"], [1, "form-outline"], ["for", "nome"], ["type", "text", "formControlName", "nome", "placeholder", "Insira seu nome", 1, "form-control", 3, "ngClass"], ["class", "invalid-feedback", 4, "ngIf"], ["for", "sobrenome"], ["type", "text", "formControlName", "sobrenome", "placeholder", "Insira seu sobrenome", 1, "form-control", 3, "ngClass"], [1, "mb-4", "pb-2"], ["for", "cpf"], ["type", "text", "formControlName", "cpf", "placeholder", "Insira seu CPF", "maxlength", "11", 1, "form-control", 3, "ngClass"], ["for", "email"], ["type", "text", "formControlName", "email", "placeholder", "Insira seu email", 1, "form-control", 3, "ngClass"], ["for", "senha"], ["type", "senha", "formControlName", "senha", "placeholder", "Insira sua senha", 1, "form-control", 3, "ngClass"], [1, "col-lg-6", "bg-indigo", "text-white"], [1, "fw-normal", "mb-5"], [1, "form-outline", "form-white"], ["for", "rgm"], ["type", "text", "formControlName", "rgm", "placeholder", "Insira seu RGM", "maxlength", "8", 1, "form-control", 3, "ngClass"], ["for", "semestre"], ["aria-label", "Default select example", 1, "form-select"], ["selected", ""], ["value", "1"], ["value", "2"], ["value", "3"], ["for", "turno"], [1, "row", "d-flex", "justify-content-center"], [1, "col-md-4", "mb-1"], ["type", "submit", 1, "btn", "btn-block", "mb-3", 2, "color", "#fff", "background-color", "#01376d", 3, "disabled"], ["class", "spinner-border spinner-border-sm mr-1", 4, "ngIf"], ["routerLink", "../login", 1, "btn", "btn-block", "mb-3", 2, "color", "#fff", "background-color", "#01376d"], [1, "invalid-feedback"], [4, "ngIf"], [1, "spinner-border", "spinner-border-sm", "mr-1"]], template: function CadastroComponent_Template(rf, ctx) { if (rf & 1) {
+CadastroComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: CadastroComponent, selectors: [["app-cadastro"]], decls: 96, vars: 27, consts: [[1, "h-100", "h-custom", "overflow-auto", 2, "background-color", "#01376d"], [1, "container", "py-5", "h-100"], [1, "row", "d-flex", "justify-content-center", "align-items-center", "h-100"], [1, "col-12"], [1, "card", "card-registration", "card-registration-2", 2, "border-radius", "15px"], [1, "card-body", "p-0"], [3, "formGroup", "ngSubmit"], [1, "row", "g-0"], [1, "col-lg-6"], [1, "p-5"], [1, "d-flex", "justify-content-center"], [1, "d-flex", "justify-content-center", 2, "width", "200px"], ["src", "assets/logo.png", 1, "mb-5", 2, "width", "100%"], [1, "row"], [1, "col-md-6", "pb-2"], [1, "form-outline"], ["for", "nome"], ["type", "text", "formControlName", "nome", "placeholder", "Insira seu nome", 1, "form-control", 3, "ngClass"], ["class", "invalid-feedback", 4, "ngIf"], ["for", "sobrenome"], ["type", "text", "formControlName", "sobrenome", "placeholder", "Insira seu sobrenome", 1, "form-control", 3, "ngClass"], [1, "pb-2"], ["for", "cpf"], ["type", "text", "formControlName", "cpf", "placeholder", "Insira seu CPF", "maxlength", "11", 1, "form-control", 3, "ngClass"], ["for", "email"], ["type", "text", "formControlName", "email", "placeholder", "Insira seu email", 1, "form-control", 3, "ngClass"], ["for", "senha"], ["type", "senha", "formControlName", "senha", "placeholder", "Insira sua senha", 1, "form-control", 3, "ngClass"], [1, "col-lg-6", "bg-indigo", "text-white"], [1, "fw-normal", "mb-5"], [1, "form-outline", "form-white"], ["for", "rgm"], ["type", "text", "formControlName", "rgm", "placeholder", "Insira seu RGM", "maxlength", "8", 1, "form-control", 3, "ngClass"], ["for", "semestre"], ["aria-label", "Default select example", 1, "form-select"], ["selected", ""], ["value", "1"], ["value", "2"], ["value", "3"], [1, "mb-5", "pb-2"], ["for", "turno"], [1, "row", "d-flex", "justify-content-center"], [1, "col-md-4", "mb-1"], ["type", "submit", 1, "btn", "btn-block", "mb-3", 2, "color", "#fff", "background-color", "#01376d", 3, "disabled"], ["class", "spinner-border spinner-border-sm mr-1", 4, "ngIf"], ["routerLink", "../login", 1, "btn", "btn-block", "mb-3", 2, "color", "#fff", "background-color", "#01376d"], [1, "invalid-feedback"], [4, "ngIf"], [1, "spinner-border", "spinner-border-sm", "mr-1"]], template: function CadastroComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "section", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
@@ -1796,8 +1796,8 @@ CadastroComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](76, "div", 21);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](77, "label", 39);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](76, "div", 39);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](77, "label", 40);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](78, "Turno");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](79, "select", 34);
@@ -1815,15 +1815,15 @@ CadastroComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefine
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](88, "div", 40);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](89, "div", 41);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](90, "button", 42);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](91, CadastroComponent_span_91_Template, 1, 0, "span", 43);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](88, "div", 41);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](89, "div", 42);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](90, "button", 43);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](91, CadastroComponent_span_91_Template, 1, 0, "span", 44);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](92, " Cadastre-se ");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](93, "div", 41);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](94, "a", 44);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](93, "div", 42);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](94, "a", 45);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](95, "Voltar");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
