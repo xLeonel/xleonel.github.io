@@ -19,7 +19,7 @@ export class AddEditComponent implements OnInit {
   tipoExibicao: TipoUser;
 
   private id: string;
-  
+
   get isAluno() {
     return this.tipoExibicao === TipoUser.aluno;
   }
@@ -28,8 +28,8 @@ export class AddEditComponent implements OnInit {
     return this.tipoExibicao === TipoUser.professor;
   }
 
-   //get form fields
-   get formulario() { return this.form.controls; }
+  //get form fields
+  get formulario() { return this.form.controls; }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -63,28 +63,25 @@ export class AddEditComponent implements OnInit {
         senha: ['', passwordValidators],
         tipoUsuario: [TipoUser.aluno, Validators.required],
       });
-
-      if (!this.isAddMode) {
-        this.accountService.getById(this.id)
-          .pipe(first())
-          .subscribe(
-            user => {
-              this.formulario.nome.setValue(user.nome);
-              this.formulario.sobrenome.setValue(user.sobrenome);
-              this.formulario.rgm.setValue(user.rgm);
-              this.formulario.cpf.setValue(user.cpf);
-              this.formulario.email.setValue(user.email);
-            },
-            error => {
-              this.alertService.error(error);
-            });
-      }
     }
     else if (this.isProfessor) {
-      //todo form 
+
+      this.form = this.formBuilder.group({
+        nome: ['', [Validators.required]],
+        sobrenome: ['', [Validators.required]],
+        rgm: ['', [Validators.required, Validators.minLength(8)]],
+        cpf: ['', [Validators.required, Validators.minLength(11)]],
+        email: ['', [Validators.required, Validators.email]],
+        senha: ['', passwordValidators],
+        tipoUsuario: [TipoUser.professor, Validators.required],
+      });
+    }
+
+    if (!this.isAddMode) {
+      this.getUserById();
     }
   }
- 
+
   onSubmit() {
     this.submitted = true;
     this.alertService.clear();
@@ -102,18 +99,34 @@ export class AddEditComponent implements OnInit {
     }
   }
 
-  private createUser() {
-    this.accountService.register(this.form.value)
-    .pipe(first())
-    .subscribe(
-        () => {
-            this.alertService.success('Cadastrado com sucesso', { keepAfterRouteChange: true });
-            this.router.navigate([this.isAluno ? '/alunos' : '/professores']);
+  private getUserById() {
+    this.accountService.getById(this.id)
+      .pipe(first())
+      .subscribe(
+        user => {
+          this.formulario.nome.setValue(user.nome);
+          this.formulario.sobrenome.setValue(user.sobrenome);
+          this.formulario.rgm.setValue(user.rgm);
+          this.formulario.cpf.setValue(user.cpf);
+          this.formulario.email.setValue(user.email);
         },
         error => {
-            this.alertService.error(error);
-            this.loading = false;
-        });  
+          this.alertService.error(error);
+        });
+  }
+
+  private createUser() {
+    this.accountService.register(this.form.value)
+      .pipe(first())
+      .subscribe(
+        () => {
+          this.alertService.success('Cadastrado com sucesso', { keepAfterRouteChange: true });
+          this.router.navigate([this.isAluno ? '/alunos' : '/professores']);
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        });
   }
 
   private updateUser() {

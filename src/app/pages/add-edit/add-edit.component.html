@@ -2,7 +2,7 @@
     <div class="container">
         <h1 *ngIf="isAluno && isAddMode">Cadastro Usuário</h1>
         <h1 *ngIf="isAluno && !isAddMode">Editar Usuário</h1>
-        <h1 *ngIf="isProfessor && !isAddMode">Cadastro Professores</h1>
+        <h1 *ngIf="isProfessor && isAddMode">Cadastro Professores</h1>
         <h1 *ngIf="isProfessor && !isAddMode">Editar Professor</h1>
 
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -68,7 +68,8 @@
                     <ng-container *ngIf="isAddMode">Cadastrar</ng-container>
                     <ng-container *ngIf="!isAddMode">Atualizar</ng-container>
                 </button>
-                <a routerLink="/alunos" class="btn btn-link">Voltar</a>
+                <a *ngIf="isAluno" routerLink="/alunos" class="btn btn-link">Voltar</a>
+                <a *ngIf="isProfessor" routerLink="/professores" class="btn btn-link">Voltar</a>
             </div>
         </form>
     </div>
