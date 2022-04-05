@@ -1,3 +1,6 @@
+import { Curso } from "./curso";
+import { Periodo } from "./periodo";
+
 export class User {
     id: number;
     email: string;
@@ -6,8 +9,10 @@ export class User {
     cpf: string;
     nome: string;
     sobrenome: string;
-    tipoUsuario: TipoUser
+    tipoUsuario: TipoUser;
     token?: string;
+    periodo: Periodo;
+    curso: Curso;
 }
 
 export enum TipoUser {

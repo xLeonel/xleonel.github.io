@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TipoUser, User } from '../models/user';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 
 @Injectable({

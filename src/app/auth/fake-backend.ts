@@ -3,50 +3,120 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor } fr
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { TipoUser, User } from '../models/user';
+import { Curso } from '../models/curso';
+import { Materia } from '../models/materia';
+import { Semestre } from '../models/semestre';
 
 // array in local storage for registered users
 let users = <User[]>JSON.parse(localStorage.getItem('usuarios')) || [];
+let materias = <Materia[]>JSON.parse(localStorage.getItem('materias')) || [];
+let cursos = <Curso[]>JSON.parse(localStorage.getItem('cursos')) || [];
 
-let prof: User = new User();
-prof.id = 0,
-    prof.email = 'prof@email.com',
-    prof.senha = 'prof123',
-    prof.rgm = '12345678',
-    prof.cpf = '11111111111',
-    prof.nome = 'Andrea',
-    prof.sobrenome = 'Martins',
-    prof.tipoUsuario = TipoUser.professor
+let user: User = new User();
+user.id = 0;
+user.email = 'prof@email.com';
+user.senha = 'prof123';
+user.rgm = '12345678';
+user.cpf = '11111111111';
+user.nome = 'Andrea';
+user.sobrenome = 'Martins';
+user.tipoUsuario = TipoUser.professor;
+cadastroUser(user);
+user = new User();
+user.id = 0;
+user.email = 'adm@email.com';
+user.senha = 'adm123';
+user.rgm = '87654321';
+user.cpf = '11111111100';
+user.nome = 'Adailton';
+user.sobrenome = 'Pereira';
+user.tipoUsuario = TipoUser.adm;
+cadastroUser(user);
 
-let adm: User = new User();
-adm.id = 0,
-    adm.email = 'adm@email.com',
-    adm.senha = 'adm123',
-    adm.rgm = '87654321',
-    adm.cpf = '11111111100',
-    adm.nome = 'Adailton',
-    adm.sobrenome = 'Pereira',
-    adm.tipoUsuario = TipoUser.adm
+// inicialize mock materias
+// **ads**
+let materia = new Materia(0, 'Técnicas de programação', Semestre.primeiro);
+cadastroMateria(materia);
+materia = new Materia(0, 'Banco de dados', Semestre.primeiro);
+cadastroMateria(materia);
+materia = new Materia(0, 'Técnicas de desenvolvimento de algoritmos', Semestre.segundo);
+cadastroMateria(materia);
+materia = new Materia(0, 'Programação orientada a objetos', Semestre.segundo);
+cadastroMateria(materia);
+materia = new Materia(0, 'Programação web', Semestre.segundo);
+cadastroMateria(materia);
+materia = new Materia(0, 'Engenharia de software', Semestre.terceiro);
+cadastroMateria(materia);
+materia = new Materia(0, 'Fundamentos de estruturas de dados', Semestre.terceiro);
+cadastroMateria(materia);
+// **psicologia**
+materia = new Materia(0, 'História da Psicologia', Semestre.primeiro);
+cadastroMateria(materia);
+materia = new Materia(0, 'Psicologia social', Semestre.primeiro);
+cadastroMateria(materia);
+materia = new Materia(0, 'Filosofia e ética', Semestre.segundo);
+cadastroMateria(materia);
+materia = new Materia(0, 'práticas profissionais', Semestre.segundo);
+cadastroMateria(materia);
+materia = new Materia(0, 'Fundamentos metodológicos', Semestre.segundo);
+cadastroMateria(materia);
+materia = new Materia(0, 'Fenômenos e processos psicológicos básico', Semestre.terceiro);
+cadastroMateria(materia);
+materia = new Materia(0, 'Fundamentos epistemológicos e históricos', Semestre.terceiro);
+cadastroMateria(materia);
 
-let ok = true;
+// inicialize mock cursos
+let curso = new Curso();
+curso.id = 0;
+curso.nome = 'Análise e Desenvolvimento de Sistemas';
+curso.materias = materias.slice(0, 6);
+cadastroCurso(curso);
+curso = new Curso();
+curso.id = 0;
+curso.nome = 'Psicologia';
+curso.materias = materias.slice(7, 13);
+cadastroCurso(curso);
 
-if (users.find(x => x.cpf === prof.cpf)) {
-    ok = false;
+function cadastroUser(usuario: User) {
+    let ok = true;
+
+    if (users.find(x => x.cpf === usuario.cpf)) {
+        ok = false;
+    }
+
+    if (ok) {
+        usuario.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+        users.push(usuario);
+        localStorage.setItem('usuarios', JSON.stringify(users));
+    }
 }
 
-if (ok) {
-    prof.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
-    users.push(prof);
-    localStorage.setItem('usuarios', JSON.stringify(users));
+function cadastroCurso(curso: Curso) {
+    let ok = true;
+
+    if (cursos.find(x => x.nome === curso.nome)) {
+        ok = false;
+    }
+
+    if (ok) {
+        curso.id = cursos.length ? Math.max(...cursos.map(x => x.id)) + 1 : 1;
+        cursos.push(curso);
+        localStorage.setItem('cursos', JSON.stringify(cursos));
+    }
 }
 
-if (users.find(x => x.cpf === adm.cpf)) {
-    ok = false;
-}
+function cadastroMateria(materia: Materia) {
+    let ok = true;
 
-if (ok) {
-    adm.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
-    users.push(adm);
-    localStorage.setItem('usuarios', JSON.stringify(users));
+    if (materias.find(x => x.nome === materia.nome)) {
+        ok = false;
+    }
+
+    if (ok) {
+        materia.id = materias.length ? Math.max(...materias.map(x => x.id)) + 1 : 1;
+        materias.push(materia);
+        localStorage.setItem('materias', JSON.stringify(materias));
+    }
 }
 
 @Injectable()
@@ -69,6 +139,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return cadastro();
                 // case url.endsWith('/users') && method === 'GET':
                 //     return getUsers();
+                case url.endsWith('/cursos') && method === 'GET':
+                    return getCursos();
                 case url.match(/\/role\/\d+$/) && method === 'GET':
                     return getUsersByRole();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
@@ -137,9 +209,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok();
         }
 
-        function getUsers() {
-            if (!isLoggedIn()) return unauthorized();
-            return ok(users);
+        function getCursos() {        
+            return ok(cursos);
         }
 
         function getUserById() {
