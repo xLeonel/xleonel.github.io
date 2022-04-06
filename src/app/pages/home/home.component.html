@@ -1,6 +1,24 @@
 <div class="p-4">
     <div class="container">
         <h1>olá {{user.nome}}!</h1>
-        <p>perfil: {{user.tipoUsuario | trataTipoUser}}</p>      
+        <p>perfil: {{user.tipoUsuario | trataTipoUser}}</p>
+        <div *ngIf="isProfessor">
+            <h1>olá proff</h1>
+
+            <label>inicio</label>
+            <input>
+
+            <label>fim</label>
+            <input>
+
+            <label>Curso</label>
+            <input>
+
+            <label>Materia</label>
+            <input>
+
+            <button>Gerar QR Code</button>
+        </div>
+
     </div>
 </div>

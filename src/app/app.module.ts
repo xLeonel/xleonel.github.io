@@ -17,6 +17,7 @@ import { TrataTipoUserPipe } from './pipes/trata-tipo-user.pipe';
 import { AlunosComponent } from './pages/alunos/alunos.component';
 import { AddEditComponent } from './pages/add-edit/add-edit.component';
 import { ProfessoresComponent } from './pages/professores/professores.component';
+import { AulasComponent } from './pages/aulas/aulas.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProfessoresComponent } from './pages/professores/professores.component'
     TrataTipoUserPipe,
     AlunosComponent,
     AddEditComponent,
-    ProfessoresComponent
+    ProfessoresComponent,
+    AulasComponent
   ],
   imports: [
     BrowserModule,

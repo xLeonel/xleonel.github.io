@@ -6,32 +6,13 @@ import { TipoUser, User } from '../models/user';
 import { Curso } from '../models/curso';
 import { Materia } from '../models/materia';
 import { Semestre } from '../models/semestre';
+import { Aula } from '../models/aula';
 
 // array in local storage for registered users
 let users = <User[]>JSON.parse(localStorage.getItem('usuarios')) || [];
 let materias = <Materia[]>JSON.parse(localStorage.getItem('materias')) || [];
 let cursos = <Curso[]>JSON.parse(localStorage.getItem('cursos')) || [];
-
-let user: User = new User();
-user.id = 0;
-user.email = 'prof@email.com';
-user.senha = 'prof123';
-user.rgm = '12345678';
-user.cpf = '11111111111';
-user.nome = 'Andrea';
-user.sobrenome = 'Martins';
-user.tipoUsuario = TipoUser.professor;
-cadastroUser(user);
-user = new User();
-user.id = 0;
-user.email = 'adm@email.com';
-user.senha = 'adm123';
-user.rgm = '87654321';
-user.cpf = '11111111100';
-user.nome = 'Adailton';
-user.sobrenome = 'Pereira';
-user.tipoUsuario = TipoUser.adm;
-cadastroUser(user);
+let aulas = <Aula[]>JSON.parse(localStorage.getItem('aulas')) || [];
 
 // inicialize mock materias
 // **ads**
@@ -77,6 +58,33 @@ curso.nome = 'Psicologia';
 curso.materias = materias.slice(7, 13);
 cadastroCurso(curso);
 
+// inicialize mock users
+let user: User = new User();
+user.id = 0;
+user.email = 'prof@email.com';
+user.senha = 'prof123';
+user.rgm = '12345678';
+user.cpf = '11111111111';
+user.nome = 'Andrea';
+user.sobrenome = 'Martins';
+user.tipoUsuario = TipoUser.professor;
+user.curso = [cursos[0]];
+cadastroUser(user);
+user = new User();
+user.id = 0;
+user.email = 'adm@email.com';
+user.senha = 'adm123';
+user.rgm = '87654321';
+user.cpf = '11111111100';
+user.nome = 'Adailton';
+user.sobrenome = 'Pereira';
+user.tipoUsuario = TipoUser.adm;
+cadastroUser(user);
+
+
+// inicialize mock aulas
+cadastroAula();
+
 function cadastroUser(usuario: User) {
     let ok = true;
 
@@ -119,6 +127,26 @@ function cadastroMateria(materia: Materia) {
     }
 }
 
+function cadastroAula() {
+    let prof = users.filter(u => u.tipoUsuario == TipoUser.professor)[0];
+    let materias = prof.curso[0].materias.map(m => { return m });
+    let aula = new Aula(0, prof, prof.curso[0], materias[0], new Date('April 07, 2022 07:15:30'), new Date('April 07, 2022 07:20:00'), []);
+
+    let ok = true;
+
+    let dateInicio = new Date(aula.inicio).toLocaleString();
+
+    if (aulas.find(x => x.professor.cpf === aula.professor.cpf && (new Date(x.inicio).toLocaleString() >= dateInicio && new Date(x.fim).toLocaleString() <= dateInicio))) {
+        ok = false;
+    }
+
+    if (ok) {
+        aula.id = aulas.length ? Math.max(...aulas.map(x => x.id)) + 1 : 1;
+        aulas.push(aula);
+        localStorage.setItem('aulas', JSON.stringify(aulas));
+    }
+}
+
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -137,10 +165,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return autenticar();
                 case url.endsWith('/cadastro') && method === 'POST':
                     return cadastro();
-                // case url.endsWith('/users') && method === 'GET':
-                //     return getUsers();
+                case url.endsWith('/aulas') && method === 'POST':
+                    return cadastroAulas();
                 case url.endsWith('/cursos') && method === 'GET':
                     return getCursos();
+                case url.match(/\/aulas\/\d+$/) && method === 'GET':
+                    return getAulaByProfessor();
                 case url.match(/\/role\/\d+$/) && method === 'GET':
                     return getUsersByRole();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
@@ -184,7 +214,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 nome: user.nome,
                 sobrenome: user.sobrenome,
                 tipoUsuario: user.tipoUsuario,
-                token: 'fake-jwt-token'
+                token: 'fake-jwt-token',
+                cursos: user.curso
             })
         }
 
@@ -209,7 +240,43 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok();
         }
 
-        function getCursos() {        
+        function cadastroAulas() {
+            const aula = body
+
+            const dateInicio = new Date(aula.inicio).toLocaleString();
+
+            if (aulas.find(x => x.professor.cpf === aula.professor.cpf && (new Date(x.inicio).toLocaleString() >= dateInicio && new Date(x.fim).toLocaleString() <= dateInicio))) {
+                return error('Você já tem uma aula nesse periodo')
+            }
+
+            aula.id = aulas.length ? Math.max(...aulas.map(x => x.id)) + 1 : 1;
+            aulas.push(aula);
+            localStorage.setItem('aulas', JSON.stringify(users));
+            return ok();
+        }
+
+        function getAulaByProfessor() {
+            if (!isLoggedIn()) return unauthorized();
+
+            const aulasProfessor = aulas.find(x => x.id === idFromUrl());
+            return ok(aulasProfessor);
+        }
+
+        // function getAulaByHora() {
+        //     if (!isLoggedIn()) return unauthorized();
+
+        //     const urlParts = url.split('/');
+        //     const idProfessor = parseInt(urlParts[urlParts.length - 1]);
+        //     const dateAgora = new Date(urlParts[urlParts.length - 2]).toLocaleString();
+
+        //     console.log(dateAgora)
+        //     console.log(aulas)
+
+        //     const aulasProfessor = aulas.filter(x => x.professor.id === idProfessor && (new Date(x.inicio).toLocaleString() >= dateAgora && new Date(x.fim).toLocaleString() <= dateAgora));
+        //     return ok(aulasProfessor);
+        // }
+
+        function getCursos() {
             return ok(cursos);
         }
 

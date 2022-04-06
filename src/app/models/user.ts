@@ -12,7 +12,7 @@ export class User {
     tipoUsuario: TipoUser;
     token?: string;
     periodo: Periodo;
-    curso: Curso;
+    curso: Curso[];
 }
 
 export enum TipoUser {
