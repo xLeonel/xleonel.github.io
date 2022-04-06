@@ -1,0 +1,51 @@
+<div class="p-4">
+    <div class="container">
+        <h1>Professores</h1>
+
+        <div class="form-group row">
+            <div class="col-sm-5">
+                <input [(ngModel)]="filter" class="form-control" placeholder="Insira o email, rgm ou cpf">
+            </div>
+        </div>
+
+        <div style="display: flex;justify-content: end;">
+            <a routerLink="/professores/cadastro" class="btn btn-sm btn-success mb-2">Novo Professor(a)</a>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 30%">Nome</th>
+                    <th style="width: 30%">Sobrenome</th>
+                    <th style="width: 30%">RGM</th>
+                    <th style="width: 10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of usuarioFiltered">
+                    <td>{{user.nome}}</td>
+                    <td>{{user.sobrenome}}</td>
+                    <td>{{user.rgm}}</td>
+                    <td style="white-space: nowrap">
+                        <a routerLink="/professores/editar/{{user.id}}" class="btn btn-sm btn-primary mr-1">Editar</a>
+                        <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user"
+                            [disabled]="user.isDeleting">
+                            <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
+                            <span *ngIf="!user.isDeleting">Deletar</span>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!usuarioFiltered && !notFound">
+                    <td colspan="4" class="text-center">
+                        <span class="spinner-border spinner-border-lg align-center"></span>
+                    </td>
+                </tr>
+                <tr *ngIf="notFound">
+                    <td colspan="4" class="text-center">
+                        <span class="align-center">Sem professores cadastrados</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
