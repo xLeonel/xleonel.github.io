@@ -215,7 +215,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 sobrenome: user.sobrenome,
                 tipoUsuario: user.tipoUsuario,
                 token: 'fake-jwt-token',
-                cursos: user.curso
+                curso: user.curso
             })
         }
 
@@ -258,7 +258,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function getAulaByProfessor() {
             if (!isLoggedIn()) return unauthorized();
 
-            const aulasProfessor = aulas.find(x => x.id === idFromUrl());
+            const aulasProfessor = aulas.filter(x => x.professor.id === idFromUrl());
             return ok(aulasProfessor);
         }
 
