@@ -52,10 +52,42 @@
                     </button>
                 </div>
             </form>
+        </div>
 
-            <zxing-scanner #scanner [formats]="allowedFormats" (camerasFound)="cameraFound($event)"
-                (camerasNotFound)="camerasNotFound($event)" (scanSuccess)="onScanSuccess($event)">
-            </zxing-scanner>
+        <div *ngIf="isAluno">
+            <div *ngIf="availableDevices">
+                <select (change)="onDeviceSelectChange($event)">
+                    <option value="" [selected]="!selectedDevice">No Device</option>
+                    <option *ngFor="let device of availableDevices" [value]="device.deviceId" [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label }}</option>
+                </select>
+            </div>
+            
+            <div [hidden]="!hasCameras">          
+                <zxing-scanner [formats]="availableFormats" #scanner class="test-class" start="true" [device]="selectedDevice" (scanSuccess)="handleQrCodeResult($event)" cssClass="small-video"></zxing-scanner>
+            
+                <h2 *ngIf="!this.selectedDevice">No camera selected.</h2>
+        
+                <p>
+                    Result:
+                    <strong>{{ qrResultString }}</strong>
+                </p>
+            </div>
+            
+            <div *ngIf="!hasCameras && hasPermission === true">
+                <h1>Looks like your actual device does not have cameras, or I could no find'em. </h1>
+            </div>
+            
+            <div *ngIf="hasPermission === undefined">
+                <h1>Esperando por permissao</h1>
+            
+                <blockquote>
+                    <h2>Se o dispositivo nao tiver cameras, nenhuma permissao sera solicitada.</h2>
+                </blockquote>
+            </div>
+            
+            <div *ngIf="hasPermission === false">        
+                <h1>Voce recusou a permissao da camera, nao podemos scanear sem a permissao. 😪</h1>
+            </div>
         </div>
     </div>
 </div>

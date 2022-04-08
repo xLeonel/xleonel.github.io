@@ -1,4 +1,4 @@
-<section class="h-100 h-custom overflow-auto bgsection" >
+<section class="h-100 h-custom overflow-auto bgsection">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
@@ -19,11 +19,12 @@
                                                 <div class="form-outline">
                                                     <label for="nome">Nome</label>
                                                     <input type="text" formControlName="nome" class="form-control"
-                                                        [ngClass]="{ 'is-invalid': submitted && formulario.nome.errors }"
+                                                        [ngClass]="{ 'is-invalid': submitted && formulario['nome'].errors }"
                                                         placeholder="Insira seu nome" />
-                                                    <div *ngIf="submitted && formulario.nome.errors"
+                                                    <div *ngIf="submitted && formulario['nome'].errors"
                                                         class="invalid-feedback">
-                                                        <div *ngIf="formulario.nome.errors.required">Nome é obrigatório
+                                                        <div *ngIf="formulario['nome'].errors['required']">Nome é
+                                                            obrigatório
                                                         </div>
                                                     </div>
                                                 </div>
@@ -34,11 +35,12 @@
                                                 <div class="form-outline">
                                                     <label for="sobrenome">Sobrenome</label>
                                                     <input type="text" formControlName="sobrenome" class="form-control"
-                                                        [ngClass]="{ 'is-invalid': submitted && formulario.sobrenome.errors }"
+                                                        [ngClass]="{ 'is-invalid': submitted && formulario['sobrenome'].errors }"
                                                         placeholder="Insira seu sobrenome" />
-                                                    <div *ngIf="submitted && formulario.sobrenome.errors"
+                                                    <div *ngIf="submitted && formulario['sobrenome'].errors"
                                                         class="invalid-feedback">
-                                                        <div *ngIf="formulario.sobrenome.errors.required">Sobrenome é
+                                                        <div *ngIf="formulario['sobrenome'].errors['required']">
+                                                            Sobrenome é
                                                             obrigatório</div>
                                                     </div>
                                                 </div>
@@ -67,13 +69,12 @@
                                             <div class="form-outline">
                                                 <label for="email">Email</label>
                                                 <input type="text" formControlName="email" class="form-control"
-                                                    [ngClass]="{ 'is-invalid': submitted && formulario.email.errors }"
+                                                    [ngClass]="{ 'is-invalid': submitted && formulario['email'].errors }"
                                                     placeholder="Insira seu email" />
-                                                <div *ngIf="submitted && formulario.email.errors"
+                                                <div *ngIf="submitted && formulario['email'].errors"
                                                     class="invalid-feedback">
-                                                    <div *ngIf="formulario.email.errors.required">Email é obrigatório
-                                                    </div>
-                                                    <div *ngIf="formulario.email.errors.email">Email é obrigatório</div>
+                                                    <div *ngIf="formulario['email'].errors['required']">Email é
+                                                        obrigatório </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,13 +84,15 @@
                                             <div class="form-outline">
                                                 <label for="senha">Senha</label>
                                                 <input type="password" formControlName="senha" class="form-control"
-                                                    [ngClass]="{ 'is-invalid': submitted && formulario.senha.errors }"
+                                                    [ngClass]="{ 'is-invalid': submitted && formulario['senha'].errors }"
                                                     placeholder="Insira sua senha" />
-                                                <div *ngIf="submitted && formulario.senha.errors"
+                                                <div *ngIf="submitted && formulario['senha'].errors"
                                                     class="invalid-feedback">
-                                                    <div *ngIf="formulario.senha.errors.required">Senha é obrigatório
+                                                    <div *ngIf="formulario['senha'].errors['required']">Senha é
+                                                        obrigatório
                                                     </div>
-                                                    <div *ngIf="formulario.senha.errors.minlength">Senha precisa ter ao
+                                                    <div *ngIf="formulario['senha'].errors['minlength']">Senha precisa
+                                                        ter ao
                                                         menos 6
                                                         caracteres</div>
                                                 </div>
@@ -106,15 +109,18 @@
                                             <div class="form-outline form-white">
                                                 <label for="rgm">RGM</label>
                                                 <input type="text" formControlName="rgm" class="form-control"
-                                                    [ngClass]="{ 'is-invalid': submitted && formulario.rgm.errors }"
+                                                    [ngClass]="{ 'is-invalid': submitted && formulario['rgm'].errors }"
                                                     placeholder="Insira seu RGM" maxlength="8" />
-                                                <div *ngIf="submitted && formulario.rgm.errors"
+                                                <div *ngIf="submitted && formulario['rgm'].errors"
                                                     class="invalid-feedback">
-                                                    <div *ngIf="formulario.rgm.errors.required">RGM é obrigatório</div>
-                                                    <div *ngIf="formulario.rgm.errors.minlength">RGM precisa ter ao
+                                                    <div *ngIf="formulario['rgm'].errors['required']">RGM é obrigatório
+                                                    </div>
+                                                    <div *ngIf="formulario['rgm'].errors['minlength']">RGM precisa ter
+                                                        ao
                                                         menos 8
                                                         caracteres</div>
-                                                    <div *ngIf="formulario.rgm.errors.maxlength">RGM precisa ter no
+                                                    <div *ngIf="formulario['rgm'].errors['maxlength']">RGM precisa ter
+                                                        no
                                                         maximo 8
                                                         caracteres</div>
                                                 </div>
@@ -124,7 +130,7 @@
                                         <div class="pb-2">
                                             <label for="curso">Curso</label>
                                             <select formControlName="curso"
-                                                [ngClass]="{ 'is-invalid': submitted && formulario.curso.errors }"
+                                                [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }"
                                                 class="form-select" required>
                                                 <option selected disabled value="">Selecione seu curso</option>
                                                 <option *ngFor="let curso of cursos" [ngValue]="curso.id">
@@ -132,15 +138,17 @@
                                                 </option>
                                             </select>
 
-                                            <div *ngIf="submitted && formulario.curso.errors" class="invalid-feedback">
-                                                <div *ngIf="formulario.curso.errors.required">Curso é obrigatório</div>
+                                            <div *ngIf="submitted && formulario['curso'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="formulario['curso'].errors['required']">Curso é obrigatório
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="pb-2">
                                             <label for="semestre">Semestre</label>
                                             <select formControlName="semestre"
-                                                [ngClass]="{ 'is-invalid': submitted && formulario.semestre.errors }"
+                                                [ngClass]="{ 'is-invalid': submitted && formulario['semestre'].errors }"
                                                 class="form-select" required>
                                                 <option selected disabled value="">Selecione seu semestre</option>
                                                 <option *ngFor="let semestre of valuesSemestres" [ngValue]="semestre">
@@ -148,9 +156,10 @@
                                                 </option>
                                             </select>
 
-                                            <div *ngIf="submitted && formulario.semestre.errors"
+                                            <div *ngIf="submitted && formulario['semestre'].errors"
                                                 class="invalid-feedback">
-                                                <div *ngIf="formulario.semestre.errors.required">Semestre é obrigatório
+                                                <div *ngIf="formulario['semestre'].errors['required']">Semestre é
+                                                    obrigatório
                                                 </div>
                                             </div>
                                         </div>
@@ -158,18 +167,18 @@
                                         <div class="mb-5 pb-2">
                                             <label for="turno">Periodo</label>
                                             <select formControlName="periodo"
-                                                [ngClass]="{ 'is-invalid': submitted && formulario.periodo.errors }"
+                                                [ngClass]="{ 'is-invalid': submitted && formulario['periodo'].errors }"
                                                 class="form-select" required>
                                                 <option selected disabled value="">Selecione seu turno</option>
-                                                <option *ngFor="let periodo of valuesPeriodos"
-                                                    [ngValue]="KeyFromPeriodo(periodo)">
+                                                <option *ngFor="let periodo of valuesPeriodos" [ngValue]="periodo">
                                                     {{periodo}}
                                                 </option>
                                             </select>
 
-                                            <div *ngIf="submitted && formulario.periodo.errors"
+                                            <div *ngIf="submitted && formulario['periodo'].errors"
                                                 class="invalid-feedback">
-                                                <div *ngIf="formulario.periodo.errors.required">Periodo é obrigatório
+                                                <div *ngIf="formulario['periodo'].errors['required']">Periodo é
+                                                    obrigatório
                                                 </div>
                                             </div>
                                         </div>

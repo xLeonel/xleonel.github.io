@@ -33,7 +33,8 @@ export class CadastroComponent implements OnInit {
     get valuesPeriodos() {
         var keys = Object.keys(this.periodos);
 
-        keys.keys
+        console.log('values', keys.slice(keys.length / 2))
+
         return keys.slice(keys.length / 2);
     }
 
@@ -98,6 +99,10 @@ export class CadastroComponent implements OnInit {
 
     KeyFromPeriodo(key: string) {
         let keyNumber = parseInt(key);
+
+        console.log('int', key)
+        console.log('key', this.periodos[keyNumber])
+
         return this.periodos[keyNumber]
     }
 

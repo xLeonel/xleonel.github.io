@@ -20,11 +20,17 @@ export class HomeComponent implements OnInit {
   loading = false;
   submitted = false;
 
-  allowedFormats = [BarcodeFormat.QR_CODE];
-  scannerEnabled = false;
+  @ViewChild('scanner')
+  scanner: ZXingScannerComponent = new ZXingScannerComponent();
 
-  @ViewChild('scanner', { static: false })
-  scanner!: ZXingScannerComponent;
+  hasCameras = false;
+  hasPermission!: boolean;
+  qrResultString!: string;
+
+  availableFormats = [BarcodeFormat.QR_CODE];
+
+  availableDevices!: MediaDeviceInfo[];
+  selectedDevice!: MediaDeviceInfo;
 
   get isAluno() {
     return this.user.tipoUsuario === TipoUser.aluno;
@@ -53,6 +59,36 @@ export class HomeComponent implements OnInit {
         materia: ['', [Validators.required]]
       });
     }
+
+    if (this.isAluno) {
+      this.InicializarEventosScanner();
+    }
+  }
+
+  private InicializarEventosScanner() {
+    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+      this.hasCameras = true;
+
+      console.log('Devices: ', devices);
+      this.availableDevices = devices;
+
+      // selects the devices's back camera by default
+      // for (const device of devices) {
+      //     if (/back|rear|environment/gi.test(device.label)) {
+      //         this.scanner.changeDevice(device);
+      //         this.selectedDevice = device;
+      //         break;
+      //     }
+      // }
+    });
+
+    this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
+      console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
+    });
+
+    this.scanner.permissionResponse.subscribe((answer: boolean) => {
+      this.hasPermission = answer;
+    });
   }
 
   criarAula(): void {
@@ -63,23 +99,15 @@ export class HomeComponent implements OnInit {
     this.materias = this.user.curso.find(c => c.id === parseInt(event.target.value))!.materias;
   }
 
-  camerasNotFound(e: any) {
-    // Display an alert modal here
-    this.alertService.info('camera not found');
 
-    console.log(e);
+  handleQrCodeResult(resultString: string) {
+    console.log('Result: ', resultString);
+    this.qrResultString = resultString;
   }
 
-  cameraFound(e: any) {
-    // Log to see if the camera was found
-    this.alertService.info('camera found');
-    console.log(e);
-  }
-
-  onScanSuccess(result: string) {
-    this.alertService.info('QR CODE LIDo');
-
-    console.log(result);
+  onDeviceSelectChange(event: any) {
+    // console.log('Selection changed: ', event.target.value);
+    // this.selectedDevice = this.scanner.deviceChange
   }
 }
 
