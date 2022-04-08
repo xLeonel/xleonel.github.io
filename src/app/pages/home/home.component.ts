@@ -13,11 +13,9 @@ import { Materia } from 'src/app/models/materia';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private aulas: Aula[];
-
   materias: Materia[] = [];
-  user: User;
-  form: FormGroup;
+  user!: User;
+  form!: FormGroup;
   loading = false;
   submitted = false;
 
@@ -54,8 +52,8 @@ export class HomeComponent implements OnInit {
     console.log(this.form.value)
   }
 
-  PreencherMaterias(id: string) {
-    this.materias = this.user.curso.find(c => c.id === parseInt(id)).materias;
+  PreencherMaterias(event: any) {
+    this.materias = this.user.curso.find(c => c.id === parseInt(event.target.value))!.materias;
   }
 }
 

@@ -1,8 +1,10 @@
 import { Materia } from "./materia";
 
 export class Curso {
-    id: number;
-    nome: string;
-    materias: Materia[]
+    constructor(
+        public id: number,
+        public nome: string,
+        public materias: Materia[]
+    ) { }
 }
 

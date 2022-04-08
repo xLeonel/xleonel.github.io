@@ -9,15 +9,15 @@
                 <div class="form-group">
                     <label for="dateFim">Horário Fim</label>
                     <input type="time" formControlName="dateFim" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && formulario.dateFim.errors }"
+                        [ngClass]="{ 'is-invalid': submitted && formulario['dateFim'].errors }"
                         placeholder="Insira a hora do final da aula" />
-                    <div *ngIf="submitted && formulario.dateFim.errors" class="invalid-feedback">
-                        <div *ngIf="formulario.dateFim.errors.required">Hora Fim é obrigatório</div>
+                    <div *ngIf="submitted && formulario['dateFim'].errors" class="invalid-feedback">
+                        <div *ngIf="formulario['dateFim'].errors['required']">Hora Fim é obrigatório</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="curso">Curso</label>
-                    <select (change)="PreencherMaterias($event.target.value)" formControlName="curso" [ngClass]="{ 'is-invalid': submitted && formulario.curso.errors }"
+                    <select (change)="PreencherMaterias($event)" formControlName="curso" [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }"
                         class="form-select" required>
                         <option selected disabled value="">Selecione o curso</option>
                         <option *ngFor="let curso of user.curso" [ngValue]="curso.id">
@@ -25,14 +25,14 @@
                         </option>
                     </select>
 
-                    <div *ngIf="submitted && formulario.curso.errors" class="invalid-feedback">
-                        <div *ngIf="formulario.curso.errors.required">Curso é obrigatório</div>
+                    <div *ngIf="submitted && formulario['curso'].errors" class="invalid-feedback">
+                        <div *ngIf="formulario['curso'].errors['required']">Curso é obrigatório</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="materia">Materia</label>
                     <select formControlName="materia"
-                        [ngClass]="{ 'is-invalid': submitted && formulario.materia.errors }" class="form-select"
+                        [ngClass]="{ 'is-invalid': submitted && formulario['materia'].errors }" class="form-select"
                         required>
                         <option selected disabled value="">Selecione a materia</option>
                         <option *ngFor="let materia of materias" [ngValue]="materia.id">
@@ -40,8 +40,8 @@
                         </option>
                     </select>
 
-                    <div *ngIf="submitted && formulario.materia.errors" class="invalid-feedback">
-                        <div *ngIf="formulario.materia.errors.required">Materia é obrigatório</div>
+                    <div *ngIf="submitted && formulario['materia'].errors" class="invalid-feedback">
+                        <div *ngIf="formulario['materia'].errors['required']">Materia é obrigatório</div>
                     </div>
                 </div>
                 <div class="form-group">

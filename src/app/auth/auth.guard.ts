@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     const user = this.accountService.userValue;
     if (user) {
       // check a permissao do usuario
-      if (route.data.permissao && route.data.permissao.indexOf(user.tipoUsuario) === -1) {
+      if (route.data['permissao'] && route.data['permissao'].indexOf(user.tipoUsuario) === -1) {
         // direciona para home caso nao esteja autorizado
         this.router.navigate(['/']);
         return false;

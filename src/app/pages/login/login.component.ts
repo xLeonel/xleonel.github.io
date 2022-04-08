@@ -11,7 +11,7 @@ import { AlertService } from '../../services/alert.service';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    form: FormGroup;
+    form!: FormGroup;
     loading = false;
     submitted = false;
 
@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
         this.loading = true;
 
-        this.accountService.login(this.formulario.username.value, this.formulario.password.value)
+        this.accountService.login(this.formulario['username'].value, this.formulario['password'].value)
             .pipe(first())
             .subscribe(
                 data => {

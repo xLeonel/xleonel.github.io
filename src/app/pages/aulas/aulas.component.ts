@@ -13,7 +13,7 @@ import { AlertService } from '../../services/alert.service';
 })
 export class AulasComponent implements OnInit {
   private aulas: Aula[] = [];
-  private user: User;
+  private user: any;
 
 
   aulasFiltered: Aula[] = [];

@@ -7,12 +7,13 @@ import { Curso } from '../models/curso';
 import { Materia } from '../models/materia';
 import { Semestre } from '../models/semestre';
 import { Aula } from '../models/aula';
+import { Periodo } from '../models/periodo';
 
 // array in local storage for registered users
-let users = <User[]>JSON.parse(localStorage.getItem('usuarios')) || [];
-let materias = <Materia[]>JSON.parse(localStorage.getItem('materias')) || [];
-let cursos = <Curso[]>JSON.parse(localStorage.getItem('cursos')) || [];
-let aulas = <Aula[]>JSON.parse(localStorage.getItem('aulas')) || [];
+let users = <User[]>JSON.parse(localStorage.getItem('usuarios')!) || [];
+let materias = <Materia[]>JSON.parse(localStorage.getItem('materias')!) || [];
+let cursos = <Curso[]>JSON.parse(localStorage.getItem('cursos')!) || [];
+let aulas = <Aula[]>JSON.parse(localStorage.getItem('aulas')!) || [];
 
 // inicialize mock materias
 // **ads**
@@ -47,38 +48,15 @@ materia = new Materia(0, 'Fundamentos epistemológicos e históricos', Semestre.
 cadastroMateria(materia);
 
 // inicialize mock cursos
-let curso = new Curso();
-curso.id = 0;
-curso.nome = 'Análise e Desenvolvimento de Sistemas';
-curso.materias = materias.slice(0, 6);
+let curso = new Curso(0, 'Análise e Desenvolvimento de Sistemas', materias.slice(0, 6));
 cadastroCurso(curso);
-curso = new Curso();
-curso.id = 0;
-curso.nome = 'Psicologia';
-curso.materias = materias.slice(7, 13);
+curso = new Curso(0, 'Psicologia', materias.slice(7, 13));
 cadastroCurso(curso);
 
 // inicialize mock users
-let user: User = new User();
-user.id = 0;
-user.email = 'prof@email.com';
-user.senha = 'prof123';
-user.rgm = '12345678';
-user.cpf = '11111111111';
-user.nome = 'Andrea';
-user.sobrenome = 'Martins';
-user.tipoUsuario = TipoUser.professor;
-user.curso = [cursos[0]];
+let user: User = new User(0, 'prof@email.com', 'prof123', '12345678', '11111111111', 'Andrea', 'Martins', TipoUser.professor, Periodo.integral, [cursos[0]]);
 cadastroUser(user);
-user = new User();
-user.id = 0;
-user.email = 'adm@email.com';
-user.senha = 'adm123';
-user.rgm = '87654321';
-user.cpf = '11111111100';
-user.nome = 'Adailton';
-user.sobrenome = 'Pereira';
-user.tipoUsuario = TipoUser.adm;
+user = new User(0, 'adm@email.com', 'adm123', '87654321', '11111111100', 'Adailton', 'Pereira', TipoUser.adm, Periodo.integral, []);
 cadastroUser(user);
 
 
@@ -189,22 +167,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function autenticar() {
             const { acesso, senha } = body;
 
-            let user: User;
+            let user: any;
 
             if (acesso.includes('@')) {
                 //email
-                user = users.find(x => x.email === acesso && x.senha === senha);
+                user = users.find(x => x.email === acesso && x.senha === senha)!;
             }
             else if (acesso.lenght === 8) {
                 //rgm
-                user = users.find(x => x.rgm === acesso && x.senha === senha);
+                user = users.find(x => x.rgm === acesso && x.senha === senha)!;
             }
             else if (acesso.lenght == 11) {
                 //cpf
-                user = users.find(x => x.cpf === acesso && x.senha === senha);
+                user = users.find(x => x.cpf === acesso && x.senha === senha)!;
             }
 
             if (!user) return error('Acesso ou Senha incorreto');
+
             return ok({
                 id: user.id,
                 email: user.email,
@@ -322,11 +301,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // status code
 
-        function ok(body?) {
+        function ok(body?: any) {
             return of(new HttpResponse({ status: 200, body }))
         }
 
-        function error(message) {
+        function error(message: any) {
             return throwError({ error: { message } });
         }
 

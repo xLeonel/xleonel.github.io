@@ -12,13 +12,13 @@ import { AlertService } from '../../services/alert.service';
   styleUrls: ['./add-edit.component.css']
 })
 export class AddEditComponent implements OnInit {
-  form: FormGroup;
+  form: any;
   loading = false;
   submitted = false;
-  isAddMode: boolean;
-  tipoExibicao: TipoUser;
+  isAddMode = false;;
+  tipoExibicao: any;
 
-  private id: string;
+  private id: any;
 
   get isAluno() {
     return this.tipoExibicao === TipoUser.aluno;
@@ -39,7 +39,7 @@ export class AddEditComponent implements OnInit {
     private alertService: AlertService
   ) {
     this.route.data.subscribe(data => {
-      this.tipoExibicao = data.tipoExibicao;
+      this.tipoExibicao = data['tipoExibicao'];
     });
   }
 
@@ -104,11 +104,11 @@ export class AddEditComponent implements OnInit {
       .pipe(first())
       .subscribe(
         user => {
-          this.formulario.nome.setValue(user.nome);
-          this.formulario.sobrenome.setValue(user.sobrenome);
-          this.formulario.rgm.setValue(user.rgm);
-          this.formulario.cpf.setValue(user.cpf);
-          this.formulario.email.setValue(user.email);
+          this.formulario['nome'].setValue(user.nome);
+          this.formulario['sobrenome'].setValue(user.sobrenome);
+          this.formulario['rgm'].setValue(user.rgm);
+          this.formulario['cpf'].setValue(user.cpf);
+          this.formulario['email'].setValue(user.email);
         },
         error => {
           this.alertService.error(error);

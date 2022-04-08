@@ -12,7 +12,7 @@ export class NavbarComponent {
   tipoAdm = TipoUser.adm;
   tipoProf = TipoUser.professor;
 
-  user: User;
+  user!: User;
 
   constructor(private accountService: AccountService) {
     this.accountService.user.subscribe(x => this.user = x);

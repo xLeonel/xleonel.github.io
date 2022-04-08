@@ -10,14 +10,14 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AccountService {
-  private userSubject: BehaviorSubject<User>;
+  private userSubject: BehaviorSubject<any>;
   public user: Observable<User>;
 
   constructor(
       private router: Router,
       private http: HttpClient
   ) {
-      this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('usuario')));
+      this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('usuario')!));
       this.user = this.userSubject.asObservable();
   }
 
@@ -25,7 +25,7 @@ export class AccountService {
       return this.userSubject.value;
   }
 
-  login(acesso, senha) {
+  login(acesso: string, senha: string) {
       return this.http.post<User>(`${environment.apiUrl}/login`, { acesso, senha })
           .pipe(map(user => {
               // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -58,7 +58,7 @@ export class AccountService {
       return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
   }
 
-  update(id, params) {
+  update(id: any, params: any) {
       return this.http.put(`${environment.apiUrl}/users/${id}`, params)
           .pipe(map(x => {
               // update stored user if the logged in user updated their own record

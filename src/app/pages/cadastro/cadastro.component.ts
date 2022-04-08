@@ -16,7 +16,7 @@ import { AlertService } from '../../services/alert.service';
     styleUrls: ['./cadastro.component.css']
 })
 export class CadastroComponent implements OnInit {
-    form: FormGroup;
+    form: any;
     loading = false;
     submitted = false;
 
@@ -97,7 +97,8 @@ export class CadastroComponent implements OnInit {
     }
 
     KeyFromPeriodo(key: string) {
-        return this.periodos[key]
+        let keyNumber = parseInt(key);
+        return this.periodos[keyNumber]
     }
 
     private async getCursos() {

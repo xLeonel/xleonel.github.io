@@ -12,8 +12,8 @@ export class AlertaComponent implements OnInit, OnDestroy {
   @Input() fade = true;
 
   alerts: Alert[] = [];
-  alertSubscription: Subscription;
-  routeSubscription: Subscription;
+  alertSubscription!: Subscription;
+  routeSubscription!: Subscription;
 
   constructor(private router: Router, private alertService: AlertService) { }
 
@@ -60,7 +60,7 @@ export class AlertaComponent implements OnInit, OnDestroy {
 
     if (this.fade) {
       // fade out alert
-      this.alerts.find(x => x === alert).fade = true;
+      this.alerts.find(x => x === alert)!.fade = true;
 
       // remove alert after faded out
       setTimeout(() => {
