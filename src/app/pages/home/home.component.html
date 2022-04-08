@@ -17,8 +17,9 @@
                 </div>
                 <div class="form-group">
                     <label for="curso">Curso</label>
-                    <select (change)="PreencherMaterias($event)" formControlName="curso" [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }"
-                        class="form-select" required>
+                    <select (change)="PreencherMaterias($event)" formControlName="curso"
+                        [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }" class="form-select"
+                        required>
                         <option selected disabled value="">Selecione o curso</option>
                         <option *ngFor="let curso of user.curso" [ngValue]="curso.id">
                             {{curso.nome}}
@@ -52,7 +53,9 @@
                 </div>
             </form>
 
-            <zxing-scanner [formats]="allowedFormats"></zxing-scanner>
+            <zxing-scanner #scanner [formats]="allowedFormats" (camerasFound)="cameraFound($event)"
+                (camerasNotFound)="camerasNotFound($event)" (scanSuccess)="onScanSuccess($event)">
+            </zxing-scanner>
         </div>
     </div>
 </div>

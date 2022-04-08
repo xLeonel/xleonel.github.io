@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertService } from '../../services/alert.service';
 import { AulaService } from '../../services/aula.service';
 import { TipoUser, User } from '../../models/user';
 import { AccountService } from '../../services/account.service';
-import { Aula } from '../../models/aula';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Materia } from 'src/app/models/materia';
+import { Materia } from '../../models/materia';
 import { BarcodeFormat } from '@zxing/library';
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +21,10 @@ export class HomeComponent implements OnInit {
   submitted = false;
 
   allowedFormats = [BarcodeFormat.QR_CODE];
+  scannerEnabled = false;
+
+  @ViewChild('scanner', { static: false })
+  scanner!: ZXingScannerComponent;
 
   get isAluno() {
     return this.user.tipoUsuario === TipoUser.aluno;
@@ -57,6 +61,25 @@ export class HomeComponent implements OnInit {
 
   PreencherMaterias(event: any) {
     this.materias = this.user.curso.find(c => c.id === parseInt(event.target.value))!.materias;
+  }
+
+  camerasNotFound(e: any) {
+    // Display an alert modal here
+    this.alertService.info('camera not found');
+
+    console.log(e);
+  }
+
+  cameraFound(e: any) {
+    // Log to see if the camera was found
+    this.alertService.info('camera found');
+    console.log(e);
+  }
+
+  onScanSuccess(result: string) {
+    this.alertService.info('QR CODE LIDo');
+
+    console.log(result);
   }
 }
 
