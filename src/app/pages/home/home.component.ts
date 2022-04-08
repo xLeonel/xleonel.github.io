@@ -6,6 +6,7 @@ import { AccountService } from '../../services/account.service';
 import { Aula } from '../../models/aula';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Materia } from 'src/app/models/materia';
+import { BarcodeFormat } from '@zxing/library';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,8 @@ export class HomeComponent implements OnInit {
   form!: FormGroup;
   loading = false;
   submitted = false;
+
+  allowedFormats = [BarcodeFormat.QR_CODE];
 
   get isAluno() {
     return this.user.tipoUsuario === TipoUser.aluno;

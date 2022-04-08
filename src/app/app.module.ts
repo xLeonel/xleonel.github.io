@@ -18,6 +18,7 @@ import { AlunosComponent } from './pages/alunos/alunos.component';
 import { AddEditComponent } from './pages/add-edit/add-edit.component';
 import { ProfessoresComponent } from './pages/professores/professores.component';
 import { AulasComponent } from './pages/aulas/aulas.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AulasComponent } from './pages/aulas/aulas.component';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ZXingScannerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
