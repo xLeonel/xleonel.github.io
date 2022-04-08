@@ -19,6 +19,7 @@ import { AddEditComponent } from './pages/add-edit/add-edit.component';
 import { ProfessoresComponent } from './pages/professores/professores.component';
 import { AulasComponent } from './pages/aulas/aulas.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     ReactiveFormsModule,
     HttpClientModule,
     FormsModule,
-    ZXingScannerModule
+    ZXingScannerModule,
+    QRCodeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

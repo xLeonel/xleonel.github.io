@@ -52,6 +52,8 @@
                     </button>
                 </div>
             </form>
+
+            <qrcode [qrdata]="'Your data string'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
         </div>
 
         <div *ngIf="isAluno">
@@ -62,8 +64,8 @@
                 </select>
             </div>
             
-            <div [hidden]="!hasCameras">          
-                <zxing-scanner [formats]="availableFormats" #scanner class="test-class" start="true" [device]="selectedDevice" (scanSuccess)="handleQrCodeResult($event)" cssClass="small-video"></zxing-scanner>
+            <div *ngIf="!hasCameras">          
+                <zxing-scanner [formats]="availableFormats" #scanner class="test-class" start="true"  (scanSuccess)="handleQrCodeResult($event)" cssClass="small-video"></zxing-scanner>
             
                 <h2 *ngIf="!this.selectedDevice">No camera selected.</h2>
         
