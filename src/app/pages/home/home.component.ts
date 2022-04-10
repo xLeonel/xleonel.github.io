@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Materia } from '../../models/materia';
 import { BarcodeFormat } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { Aula } from 'src/app/models/aula';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,15 @@ import { ZXingScannerComponent } from '@zxing/ngx-scanner';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  private aulas!: Aula[];
+
   materias: Materia[] = [];
   user!: User;
   form!: FormGroup;
   loading = false;
   submitted = false;
+  exibirQRCode = false;
+  aulaAtual = false;
 
   @ViewChild('scanner')
   scanner: ZXingScannerComponent = new ZXingScannerComponent();
@@ -26,11 +31,8 @@ export class HomeComponent implements OnInit {
   hasCameras = false;
   hasPermission!: boolean;
   qrResultString!: string;
-
-  availableFormats = [BarcodeFormat.QR_CODE];
-
-  availableDevices!: MediaDeviceInfo[];
-  selectedDevice!: MediaDeviceInfo;
+  formatoQRCode = [BarcodeFormat.QR_CODE];
+  valueQRCode = '';
 
   get isAluno() {
     return this.user.tipoUsuario === TipoUser.aluno;
@@ -53,6 +55,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isProfessor) {
+      this.aulasService.getAllByProfessor(this.user.id).subscribe({
+        next: aulas => {
+          this.aulas = aulas;
+          this.ValidarAula();
+        },
+        error: e => {
+          this.alertService.error(e);
+        }
+      });
+
+
       this.form = this.formBuilder.group({
         dateFim: ['', [Validators.required]],
         curso: ['', [Validators.required]],
@@ -65,26 +78,28 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  private ValidarAula() {
+    let horaAtual = new Date(Date.now()).toLocaleString();
+
+    const aulaAtual = this.aulas.find(a => new Date(a.inicio).toLocaleString() >= horaAtual && new Date(a.fim).toLocaleString() <= horaAtual)
+    console.log(aulaAtual)
+
+    if (aulaAtual) {
+      this.aulaAtual = true;
+    }
+    else {
+      this.aulaAtual = false;
+    }
+  }
+
   private InicializarEventosScanner() {
     this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
       this.hasCameras = true;
-
-      console.log('Devices: ', devices);
-      this.availableDevices = devices;
-
-      // selects the devices's back camera by default
-      // for (const device of devices) {
-      //     if (/back|rear|environment/gi.test(device.label)) {
-      //         this.scanner.changeDevice(device);
-      //         this.selectedDevice = device;
-      //         break;
-      //     }
-      // }
     });
 
-    this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
-      console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
-    });
+    // this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
+    //   console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
+    // });
 
     this.scanner.permissionResponse.subscribe((answer: boolean) => {
       this.hasPermission = answer;
@@ -92,23 +107,53 @@ export class HomeComponent implements OnInit {
   }
 
   criarAula(): void {
-    console.log(this.form.value)
+    if (this.isProfessor) {
+      this.submitted = true;
+
+      this.alertService.clear();
+
+      if (this.form.invalid) {
+        return;
+      }
+
+      let horaInicio = new Date(Date.now());
+
+      let horasMinutos = <string>this.formulario['dateFim'].value;
+
+      let horaFim = new Date(Date.now());
+      horaFim.setHours(parseInt(horasMinutos.split(':')[0]));
+      horaFim.setMinutes(parseInt(horasMinutos.split(':')[1]));
+
+      if (horaFim <= horaInicio) {
+        this.alertService.error('Digite uma hora maior que a hora atual');
+        return;
+      }
+
+      this.loading = true;
+
+      let aula = new Aula(0, this.user, this.formulario['curso'].value, this.formulario['materia'].value, horaInicio, horaFim, [])
+
+      this.aulasService.register(aula).subscribe({
+        next: () => {
+          this.exibirQRCode = true;
+        },
+        error: e => {
+          this.alertService.error(e);
+          this.loading = false;
+        }
+      });
+    }
   }
 
   PreencherMaterias(event: any) {
     this.materias = this.user.curso.find(c => c.id === parseInt(event.target.value))!.materias;
   }
 
-
-  handleQrCodeResult(resultString: string) {
+  lerQRCode(resultString: string) {
     console.log('Result: ', resultString);
     this.qrResultString = resultString;
   }
 
-  onDeviceSelectChange(event: any) {
-    // console.log('Selection changed: ', event.target.value);
-    // this.selectedDevice = this.scanner.deviceChange
-  }
 }
 
 

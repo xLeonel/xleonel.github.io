@@ -61,7 +61,7 @@ cadastroUser(user);
 
 
 // inicialize mock aulas
-cadastroAula();
+// cadastroAula();
 
 function cadastroUser(usuario: User) {
     let ok = true;
@@ -230,7 +230,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             aula.id = aulas.length ? Math.max(...aulas.map(x => x.id)) + 1 : 1;
             aulas.push(aula);
-            localStorage.setItem('aulas', JSON.stringify(users));
+            localStorage.setItem('aulas', JSON.stringify(aulas));
             return ok();
         }
 

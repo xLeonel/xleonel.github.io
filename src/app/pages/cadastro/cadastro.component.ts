@@ -32,9 +32,6 @@ export class CadastroComponent implements OnInit {
 
     get valuesPeriodos() {
         var keys = Object.keys(this.periodos);
-
-        console.log('values', keys.slice(keys.length / 2))
-
         return keys.slice(keys.length / 2);
     }
 
