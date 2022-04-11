@@ -78,7 +78,7 @@
                     </select>
                 </div>
 
-                <div *ngIf="hasCameras">
+                <div>
                     <div *ngIf="!qrCodeLido">
                         <zxing-scanner [formats]="formatoQRCode" #scanner class="test-class" start="true"
                             (scanSuccess)="lerQRCode($event)" [device]="selectedDevice" cssClass="small-video"></zxing-scanner>
