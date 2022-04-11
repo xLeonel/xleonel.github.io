@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { AlertService } from '../../services/alert.service';
 import { AulaService } from '../../services/aula.service';
 import { TipoUser, User } from '../../models/user';
@@ -8,7 +8,6 @@ import { Materia } from '../../models/materia';
 import { BarcodeFormat } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { Aula } from 'src/app/models/aula';
-import { first } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -30,10 +29,7 @@ export class HomeComponent implements OnInit {
   presencaValidada = false;
 
   @ViewChild('scanner')
-  scanner: ZXingScannerComponent = new ZXingScannerComponent();
-  selectedDevice!: MediaDeviceInfo;
-  availableDevices!: MediaDeviceInfo[];
-
+  scanner!: ZXingScannerComponent;
   hasCameras = false;
   hasPermission!: boolean;
   qrResultString!: string;
@@ -79,8 +75,6 @@ export class HomeComponent implements OnInit {
     }
 
     if (this.isAluno) {
-      this.InicializarEventosScanner();
-
       this.aulasService.getAllByAluno(this.user.id).subscribe({
         next: aulas => {
           this.aulas = aulas;
@@ -115,22 +109,6 @@ export class HomeComponent implements OnInit {
       this.exibirQRCode = false;
       this.aulaAtual = true;
     }
-  }
-
-  private InicializarEventosScanner() {
-    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
-      this.hasCameras = true;
-
-      this.availableDevices = devices;
-    });
-
-    // this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
-    //   console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
-    // });
-
-    this.scanner.permissionResponse.subscribe((answer: boolean) => {
-      this.hasPermission = answer;
-    });
   }
 
   criarAula(): void {
@@ -200,10 +178,13 @@ export class HomeComponent implements OnInit {
     this.scannerAtivo = true;
   }
 
-  onDeviceSelectChange(event: any) {
-
+  onHasPermission(resposta:any) {
+    this.hasPermission = resposta;
   }
 
+  onCamerasFound(devices: MediaDeviceInfo[]): void {
+    this.hasCameras = Boolean(devices && devices.length);
+  }  
 }
 
 
