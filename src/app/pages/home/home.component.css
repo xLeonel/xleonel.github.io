@@ -1,4 +1,4 @@
-/* :host zxing-scanner ::ng-deep video{
+:host zxing-scanner ::ng-deep video{
     height: 15rem;
     width: 100vw;
     object-fit: contain;
@@ -6,4 +6,4 @@
   
   video {
     height: 15rem !important;
-  } */
+  }
