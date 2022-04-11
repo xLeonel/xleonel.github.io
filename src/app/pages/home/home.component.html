@@ -71,10 +71,17 @@
             </div>
 
             <div *ngIf="scannerAtivo">
+                <div *ngIf="availableDevices">
+                    <select (change)="onDeviceSelectChange($event)">
+                        <option value="" [selected]="!selectedDevice">No Device</option>
+                        <option *ngFor="let device of availableDevices" [value]="device.deviceId" [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label }}</option>
+                    </select>
+                </div>
+
                 <div *ngIf="hasCameras">
                     <div *ngIf="!qrCodeLido">
                         <zxing-scanner [formats]="formatoQRCode" #scanner class="test-class" start="true"
-                            (scanSuccess)="lerQRCode($event)" [device]="selectDevice" cssClass="small-video"></zxing-scanner>
+                            (scanSuccess)="lerQRCode($event)" [device]="selectedDevice" cssClass="small-video"></zxing-scanner>
                     </div>
 
                     <p>

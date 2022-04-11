@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('scanner')
   scanner: ZXingScannerComponent = new ZXingScannerComponent();
-  selectDevice!: MediaDeviceInfo;
+  selectedDevice!: MediaDeviceInfo;
+  availableDevices!: MediaDeviceInfo[];
 
   hasCameras = false;
   hasPermission!: boolean;
@@ -120,7 +121,7 @@ export class HomeComponent implements OnInit {
     this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
       this.hasCameras = true;
 
-      this.selectDevice = devices[0];
+      this.availableDevices = devices;
     });
 
     // this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
@@ -197,6 +198,10 @@ export class HomeComponent implements OnInit {
 
   HabilitarScanner() {
     this.scannerAtivo = true;
+  }
+
+  onDeviceSelectChange(event: any) {
+
   }
 
 }
