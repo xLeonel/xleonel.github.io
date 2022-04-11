@@ -8,6 +8,7 @@ import { Materia } from '../../models/materia';
 import { BarcodeFormat } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { Aula } from 'src/app/models/aula';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +31,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('scanner')
   scanner: ZXingScannerComponent = new ZXingScannerComponent();
+  selectDevice!: MediaDeviceInfo;
 
   hasCameras = false;
   hasPermission!: boolean;
@@ -117,6 +119,8 @@ export class HomeComponent implements OnInit {
   private InicializarEventosScanner() {
     this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
       this.hasCameras = true;
+
+      this.selectDevice = devices[0];
     });
 
     // this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
