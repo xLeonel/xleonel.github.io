@@ -169,6 +169,8 @@ export class HomeComponent implements OnInit {
       },
       error: e => {
         this.alertService.error(e);
+        this.qrCodeLido = false;
+        this.scannerAtivo = false;
       }
     });
 
