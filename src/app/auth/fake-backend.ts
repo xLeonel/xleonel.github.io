@@ -148,13 +148,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/cursos') && method === 'GET':
                     return getCursos();
                 case url.match(/\/aulas\/\d+$/) && method === 'GET':
+                    return getAulaById();
+                case url.match(/\/professor\/\d+$/) && method === 'GET':
                     return getAulaByProfessor();
+                case url.match(/\/alunos\/\d+$/) && method === 'GET':
+                    return getAulaByAlunos();
                 case url.match(/\/role\/\d+$/) && method === 'GET':
                     return getUsersByRole();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
                 case url.match(/\/users\/\d+$/) && method === 'PUT':
                     return updateUser();
+                case url.match(/\/aulas\/\d+$/) && method === 'PUT':
+                    return updateAula();
                 case url.match(/\/users\/\d+$/) && method === 'DELETE':
                     return deleteUser();
                 default:
@@ -194,7 +200,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 sobrenome: user.sobrenome,
                 tipoUsuario: user.tipoUsuario,
                 token: 'fake-jwt-token',
-                curso: user.curso
+                curso: user.curso,
+                semestre: user.semestre
             })
         }
 
@@ -224,14 +231,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             const dateInicio = new Date(aula.inicio).toLocaleString();
 
-            if (aulas.find(x => x.professor.cpf === aula.professor.cpf && (new Date(x.inicio).toLocaleString() >= dateInicio && new Date(x.fim).toLocaleString() <= dateInicio))) {
+            if (aulas.find(x => x.professor.cpf === aula.professor.cpf && dateInicio >= new Date(x.inicio).toLocaleString() && dateInicio <= new Date(x.fim).toLocaleString())) {
                 return error('Você já tem uma aula nesse periodo')
             }
 
             aula.id = aulas.length ? Math.max(...aulas.map(x => x.id)) + 1 : 1;
             aulas.push(aula);
             localStorage.setItem('aulas', JSON.stringify(aulas));
-            return ok();
+            return ok(aula.id);
         }
 
         function getAulaByProfessor() {
@@ -239,6 +246,27 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             const aulasProfessor = aulas.filter(x => x.professor.id === idFromUrl());
             return ok(aulasProfessor);
+        }
+
+        function getAulaByAlunos() {
+            if (!isLoggedIn()) return unauthorized();
+
+            let aluno: any = users.find(u => u.id === idFromUrl())!;
+
+            let aulasDoCurso = aulas.filter(aula => aula.curso.id === aluno.curso.id);
+
+            let aulasAluno: Aula[] = [];
+
+            aulasDoCurso.filter(a => {
+                a.alunos.map(alunos => {
+
+                    if (alunos.id === aluno.id) {
+                        aulasAluno.push(a);                  
+                    }
+                });
+            });
+
+            return ok(aulasAluno);
         }
 
         // function getAulaByHora() {
@@ -266,6 +294,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(user);
         }
 
+        function getAulaById() {
+            if (!isLoggedIn()) return unauthorized();
+
+            const aula = aulas.find(x => x.id === idFromUrl());
+            return ok(aula);
+        }
+
         function getUsersByRole() {
             if (!isLoggedIn()) return unauthorized();
 
@@ -289,6 +324,59 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             localStorage.setItem('usuarios', JSON.stringify(users));
 
             return ok();
+        }
+
+        function updateAula() {
+            if (!isLoggedIn()) return unauthorized();
+
+            let params = body;
+            let aula = aulas.find(x => x.id === idFromUrl());
+
+            if (aula) {
+                let horaAtual = new Date(Date.now()).toLocaleString();
+
+                if (horaAtual >= new Date(aula.inicio).toLocaleString() && horaAtual <= new Date(aula.fim).toLocaleString()) {
+                    let aluno = users.find(x => x.id === params)!;
+
+                    if (aluno) {
+                        if (aula?.alunos.find(a => a.id === aluno.id)) {
+                            return error('Voce ja registrou sua presença nessa materia');
+                        }
+
+                        let cursoAluno: any = aluno.curso;
+
+                        let materias = <Materia[]>cursoAluno.materias;
+
+                        let alunoTemMateria = materias.find(m => m.id === aula?.materia.id);
+
+                        if (alunoTemMateria) {
+                            if (alunoTemMateria.semestre === aula?.materia.semestre) {
+                                aula?.alunos.push(aluno);
+                                // update and save user
+                                Object.assign(aula, '');
+
+                                localStorage.setItem('aulas', JSON.stringify(aulas));
+                                return ok();
+                            }
+                            else {
+                                return error('Voce nao pertence ao semestre dessa materia');
+                            }
+                        }
+                        else {
+                            return error('Voce nao tem essa materia no seu curso');
+                        }
+
+                    } else {
+                        return error('Erro ao registrar sua presença');
+                    }
+                }
+                else {
+                    return error('Essa aula ja acabou');
+                }
+            }
+            else {
+                return error('Erro ao registrar sua presença');
+            }
         }
 
         function deleteUser() {

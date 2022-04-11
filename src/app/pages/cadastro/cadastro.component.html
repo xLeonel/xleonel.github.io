@@ -133,7 +133,7 @@
                                                 [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }"
                                                 class="form-select" required>
                                                 <option selected disabled value="">Selecione seu curso</option>
-                                                <option *ngFor="let curso of cursos" [ngValue]="curso.id">
+                                                <option *ngFor="let curso of cursos" [ngValue]="curso">
                                                     {{curso.nome}}
                                                 </option>
                                             </select>

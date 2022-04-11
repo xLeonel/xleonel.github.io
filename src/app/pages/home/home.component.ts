@@ -22,8 +22,11 @@ export class HomeComponent implements OnInit {
   form!: FormGroup;
   loading = false;
   submitted = false;
-  exibirQRCode = false;
   aulaAtual = false;
+  exibirQRCode = false;
+  scannerAtivo = false;
+  qrCodeLido = false;
+  presencaValidada = false;
 
   @ViewChild('scanner')
   scanner: ZXingScannerComponent = new ZXingScannerComponent();
@@ -45,7 +48,6 @@ export class HomeComponent implements OnInit {
   //get form fields
   get formulario() { return this.form.controls; }
 
-
   constructor(private accountService: AccountService,
     private aulasService: AulaService,
     private alertService: AlertService,
@@ -55,6 +57,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isProfessor) {
+
       this.aulasService.getAllByProfessor(this.user.id).subscribe({
         next: aulas => {
           this.aulas = aulas;
@@ -65,7 +68,6 @@ export class HomeComponent implements OnInit {
         }
       });
 
-
       this.form = this.formBuilder.group({
         dateFim: ['', [Validators.required]],
         curso: ['', [Validators.required]],
@@ -75,20 +77,40 @@ export class HomeComponent implements OnInit {
 
     if (this.isAluno) {
       this.InicializarEventosScanner();
+
+      this.aulasService.getAllByAluno(this.user.id).subscribe({
+        next: aulas => {
+          this.aulas = aulas;
+
+          let dateAgora = new Date(Date.now()).toLocaleString();
+
+          this.aulas.map(a => {
+            if (dateAgora >= new Date(a.inicio).toLocaleString() && dateAgora <= new Date(a.fim).toLocaleString()) {
+              this.presencaValidada = true;
+              return;
+            }
+          })
+
+        },
+        error: e => {
+          this.alertService.error(e);
+        }
+      });
     }
   }
 
   private ValidarAula() {
     let horaAtual = new Date(Date.now()).toLocaleString();
 
-    const aulaAtual = this.aulas.find(a => new Date(a.inicio).toLocaleString() >= horaAtual && new Date(a.fim).toLocaleString() <= horaAtual)
-    console.log(aulaAtual)
+    const aulaAtual = this.aulas.find(a => horaAtual >= new Date(a.inicio).toLocaleString() && horaAtual <= new Date(a.fim).toLocaleString())
 
     if (aulaAtual) {
-      this.aulaAtual = true;
+      this.exibirQRCode = true;
+      this.aulaAtual = false;
     }
     else {
-      this.aulaAtual = false;
+      this.exibirQRCode = false;
+      this.aulaAtual = true;
     }
   }
 
@@ -134,8 +156,11 @@ export class HomeComponent implements OnInit {
       let aula = new Aula(0, this.user, this.formulario['curso'].value, this.formulario['materia'].value, horaInicio, horaFim, [])
 
       this.aulasService.register(aula).subscribe({
-        next: () => {
+        next: idAula => {
+          this.valueQRCode = `${idAula}`;
+
           this.exibirQRCode = true;
+          this.aulaAtual = false;
         },
         error: e => {
           this.alertService.error(e);
@@ -150,8 +175,24 @@ export class HomeComponent implements OnInit {
   }
 
   lerQRCode(resultString: string) {
-    console.log('Result: ', resultString);
+    this.qrCodeLido = true;
     this.qrResultString = resultString;
+
+
+    this.aulasService.update(resultString, this.user.id).subscribe({
+      next: () => {
+        this.alertService.success('presença validada');
+        this.presencaValidada = true;
+      },
+      error: e => {
+        this.alertService.error(e);
+      }
+    });
+
+  }
+
+  HabilitarScanner() {
+    this.scannerAtivo = true;
   }
 
 }

@@ -3,83 +3,101 @@
         <h1>olá {{user.nome}}!</h1>
         <p>perfil: {{user.tipoUsuario | trataTipoUser}}</p>
         <div *ngIf="isProfessor">
-            <h3>Iniciar Aula</h3>
+            <div [hidden]="!aulaAtual">
+                <h3>Iniciar Aula</h3>
 
-            <form *ngIf="!aulaAtual && !exibirQRCode" [formGroup]="form" (ngSubmit)="criarAula()">
-                <div class="form-group">
-                    <label for="dateFim">Horário Fim</label>
-                    <input required type="time" formControlName="dateFim" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && formulario['dateFim'].errors }"
-                        placeholder="Insira a hora do final da aula" />
-                    <div *ngIf="submitted && formulario['dateFim'].errors" class="invalid-feedback">
-                        <div *ngIf="formulario['dateFim'].errors['required']">Hora Fim é obrigatório</div>
+                <form [formGroup]="form" (ngSubmit)="criarAula()">
+                    <div class="form-group">
+                        <label for="dateFim">Horário Fim</label>
+                        <input required type="time" formControlName="dateFim" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && formulario['dateFim'].errors }"
+                            placeholder="Insira a hora do final da aula" />
+                        <div *ngIf="submitted && formulario['dateFim'].errors" class="invalid-feedback">
+                            <div *ngIf="formulario['dateFim'].errors['required']">Hora Fim é obrigatório</div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="curso">Curso</label>
-                    <select (change)="PreencherMaterias($event)" formControlName="curso"
-                        [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }" class="form-select"
-                        required>
-                        <option selected disabled value="">Selecione o curso</option>
-                        <option *ngFor="let curso of user.curso" [ngValue]="curso">
-                            {{curso.nome}}
-                        </option>
-                    </select>
+                    <div class="form-group">
+                        <label for="curso">Curso</label>
+                        <select (change)="PreencherMaterias($event)" formControlName="curso"
+                            [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }" class="form-select"
+                            required>
+                            <option selected disabled value="">Selecione o curso</option>
+                            <option *ngFor="let curso of user.curso" [ngValue]="curso">
+                                {{curso.nome}}
+                            </option>
+                        </select>
 
-                    <div *ngIf="submitted && formulario['curso'].errors" class="invalid-feedback">
-                        <div *ngIf="formulario['curso'].errors['required']">Curso é obrigatório</div>
+                        <div *ngIf="submitted && formulario['curso'].errors" class="invalid-feedback">
+                            <div *ngIf="formulario['curso'].errors['required']">Curso é obrigatório</div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="materia">Materia</label>
-                    <select formControlName="materia"
-                        [ngClass]="{ 'is-invalid': submitted && formulario['materia'].errors }" class="form-select"
-                        required>
-                        <option selected disabled value="">Selecione a materia</option>
-                        <option *ngFor="let materia of materias" [ngValue]="materia">
-                            {{materia.nome}}
-                        </option>
-                    </select>
+                    <div class="form-group">
+                        <label for="materia">Materia</label>
+                        <select formControlName="materia"
+                            [ngClass]="{ 'is-invalid': submitted && formulario['materia'].errors }" class="form-select"
+                            required>
+                            <option selected disabled value="">Selecione a materia</option>
+                            <option *ngFor="let materia of materias" [ngValue]="materia">
+                                {{materia.nome}}
+                            </option>
+                        </select>
 
-                    <div *ngIf="submitted && formulario['materia'].errors" class="invalid-feedback">
-                        <div *ngIf="formulario['materia'].errors['required']">Materia é obrigatório</div>
+                        <div *ngIf="submitted && formulario['materia'].errors" class="invalid-feedback">
+                            <div *ngIf="formulario['materia'].errors['required']">Materia é obrigatório</div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <button [disabled]="loading" type="submit" class="btn btn-primary">
-                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                        Gerar QR Code
-                    </button>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <button [disabled]="loading" type="submit" class="btn btn-primary">
+                            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                            Gerar QR Code
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-            <div *ngIf="exibirQRCode">
-                <qrcode [qrdata]="valueQRCode" [width]="256" [errorCorrectionLevel]="'M'"[allowEmptyString]="true"></qrcode>
+            <div [hidden]="!exibirQRCode ">
+                <qrcode [qrdata]="valueQRCode" [width]="256" [errorCorrectionLevel]="'M'" [allowEmptyString]="true">
+                </qrcode>
             </div>
         </div>
 
         <div *ngIf="isAluno">
-            <div *ngIf="hasCameras">
-                <zxing-scanner [formats]="formatoQRCode" #scanner class="test-class" start="true"
-                    (scanSuccess)="lerQRCode($event)" cssClass="small-video"></zxing-scanner>
+            <button *ngIf="!scannerAtivo" (click)="lerQRCode('11')" class="btn btn-primary">
+                Ler QR Code
+            </button>
 
-                <p>
-                    Result:
-                    <strong>{{ qrResultString }}</strong>
-                </p>
+            <div *ngIf="presencaValidada">
+                <h3>Você ja registrou sua presença. 😀</h3>
             </div>
 
-            <div *ngIf="!hasCameras">
-                <h3>O seu dispositivo nao possui cameras, ou nao podemos encontrar.</h3>
-            </div>
+            <div *ngIf="scannerAtivo">
+                <div *ngIf="hasCameras">
+                    <div *ngIf="!qrCodeLido">
+                        <zxing-scanner [formats]="formatoQRCode" #scanner class="test-class" start="true"
+                            (scanSuccess)="lerQRCode($event)" cssClass="small-video"></zxing-scanner>
+                    </div>
 
-            <div *ngIf="hasCameras && hasPermission === undefined">
-                <h2>Esperando por permissao</h2>
-            </div>
+                    <p>
+                        Result:
+                        <strong>{{ qrResultString }}</strong>
+                    </p>
+                </div>
 
-            <div *ngIf="hasPermission === false">
-                <h3>Voce recusou a permissao da camera, nao podemos scanear sem a permissao. 😪</h3>
+                <div *ngIf="!hasCameras">
+                    <h3>O seu dispositivo nao possui cameras, ou nao podemos encontrar.</h3>
+                </div>
+
+                <div *ngIf="hasCameras && hasPermission === undefined">
+                    <h2>Esperando por permissao</h2>
+                </div>
+
+                <div *ngIf="hasPermission === false">
+                    <h3>Voce recusou a permissao da camera, nao podemos scanear sem a permissao. 😪</h3>
+                </div>
             </div>
         </div>
+
+
+
     </div>
 </div>
