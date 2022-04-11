@@ -62,7 +62,7 @@
         </div>
 
         <div *ngIf="isAluno">
-            <button *ngIf="!scannerAtivo" (click)="lerQRCode('11')" class="btn btn-primary">
+            <button *ngIf="!scannerAtivo" (click)="HabilitarScanner()" class="btn btn-primary">
                 Ler QR Code
             </button>
 
