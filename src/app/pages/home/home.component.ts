@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   scannerAtivo = false;
   qrCodeLido = false;
   presencaValidada = false;
+  habilitarLerQrCode = false;
 
   @ViewChild('scanner')
   scanner!: ZXingScannerComponent;
@@ -87,6 +88,10 @@ export class HomeComponent implements OnInit {
               return;
             }
           })
+
+          if (!this.presencaValidada) {
+            this.habilitarLerQrCode = true;
+          }
 
         },
         error: e => {
@@ -180,13 +185,13 @@ export class HomeComponent implements OnInit {
     this.scannerAtivo = true;
   }
 
-  onHasPermission(resposta:any) {
+  onHasPermission(resposta: any) {
     this.hasPermission = resposta;
   }
 
   onCamerasFound(devices: MediaDeviceInfo[]): void {
     this.hasCameras = Boolean(devices && devices.length);
-  }  
+  }
 }
 
 

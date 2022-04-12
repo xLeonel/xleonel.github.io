@@ -151,6 +151,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getAulaById();
                 case url.match(/\/professor\/\d+$/) && method === 'GET':
                     return getAulaByProfessor();
+                case url.match(/\/semestre\/\d+$/) && method === 'GET':
+                    return getAulaBySemestre();
                 case url.match(/\/alunos\/\d+$/) && method === 'GET':
                     return getAulaByAlunos();
                 case url.match(/\/role\/\d+$/) && method === 'GET':
@@ -248,6 +250,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(aulasProfessor);
         }
 
+        function getAulaBySemestre() {
+            if (!isLoggedIn()) return unauthorized();
+
+            const aulasSemestre = aulas.filter(x => x.materia.semestre === idFromUrl());
+            return ok(aulasSemestre);
+        }
+
         function getAulaByAlunos() {
             if (!isLoggedIn()) return unauthorized();
 
@@ -261,7 +270,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 a.alunos.map(alunos => {
 
                     if (alunos.id === aluno.id) {
-                        aulasAluno.push(a);                  
+                        aulasAluno.push(a);
                     }
                 });
             });

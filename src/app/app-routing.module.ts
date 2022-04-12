@@ -8,6 +8,7 @@ import { AulasComponent } from './pages/aulas/aulas.component';
 import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { PresencaComponent } from './pages/presenca/presenca.component';
 import { ProfessoresComponent } from './pages/professores/professores.component';
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'professores', component: ProfessoresComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm] } },
   { path: 'professores/editar/:id', component: AddEditComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm], tipoExibicao: TipoUser.professor } },
   { path: 'professores/cadastro', component: AddEditComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm], tipoExibicao: TipoUser.professor } },
+  { path: 'presencas', component: PresencaComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.aluno] }},
   { path: '**', redirectTo: '' }
 ];
 

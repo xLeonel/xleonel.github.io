@@ -55,7 +55,6 @@ export class AulasComponent implements OnInit {
           this.notFound = true;
         }
 
-        console.log(aulas)
         this.aulas = aulas;
         this.aulasFiltered = this.aulas;
       },
