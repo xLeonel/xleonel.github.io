@@ -1,7 +1,6 @@
 <div class="p-4">
     <div class="container">
-        <h1>olá {{user.nome}}!</h1>
-        <p>perfil: {{user.tipoUsuario | trataTipoUser}}</p>
+        <h1 class="mb-4">Olá, {{user.tipoUsuario | trataTipoUser}} {{user.nome}}!</h1>
         <div *ngIf="isProfessor">
             <div [hidden]="!aulaAtual">
                 <h3>Iniciar Aula</h3>
