@@ -45,6 +45,10 @@ export class HomeComponent implements OnInit {
     return this.user.tipoUsuario === TipoUser.professor;
   }
 
+  get isAdmin() {
+    return this.user.tipoUsuario === TipoUser.adm;
+  }
+
   //get form fields
   get formulario() { return this.form.controls; }
 

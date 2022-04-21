@@ -12,35 +12,37 @@
             <a routerLink="/alunos/cadastro" class="btn btn-sm btn-success mb-2">Nova Aula</a>
         </div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th style="width: 30%">Aula</th>
-                    <th style="width: 30%">Materia</th>
-                    <th style="width: 30%">Professor</th>
-                    <th style="width: 10%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let aula of aulasFiltered">
-                    <td>{{aula.curso.nome}}</td>
-                    <td>{{aula.materia.nome}}</td>
-                    <td>{{aula.professor.nome}}</td>
-                    <td style="white-space: nowrap">
-                        <a routerLink="/aulas/editar/{{aula.id}}" class="btn btn-sm btn-primary mr-1">Visualizar</a>                   
-                    </td>
-                </tr>
-                <tr *ngIf="!aulasFiltered && !notFound">
-                    <td colspan="4" class="text-center">
-                        <span class="spinner-border spinner-border-lg align-center"></span>
-                    </td>
-                </tr>
-                <tr *ngIf="notFound">
-                    <td colspan="4" class="text-center">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 30%">Aula</th>
+                        <th style="width: 30%">Materia</th>
+                        <th style="width: 30%">Professor</th>
+                        <th style="width: 10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let aula of aulasFiltered">
+                        <td>{{aula.curso.nome}}</td>
+                        <td>{{aula.materia.nome}}</td>
+                        <td>{{aula.professor.nome}}</td>
+                        <td style="white-space: nowrap">
+                            <a routerLink="/aulas/editar/{{aula.id}}" class="btn btn-sm btn-primary mr-1">Visualizar</a>                   
+                        </td>
+                    </tr>
+                    <tr *ngIf="!aulasFiltered && !notFound">
+                        <td colspan="4" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                    <tr *ngIf="notFound">
+                        <td colspan="4" class="text-center">
                         <span class="align-center">Sem aulas cadastrados</span>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
     </div>
 </div>

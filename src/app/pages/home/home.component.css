@@ -7,3 +7,10 @@
   video {
     /* height: 8rem !important; */
   }
+
+
+  .imageCentraliza {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

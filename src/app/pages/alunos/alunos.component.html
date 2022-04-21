@@ -1,9 +1,8 @@
 <div class="p-4">
     <div class="container">
         <h1>Alunos</h1>
-
-        <div class="form-group row">
-            <div class="col-sm-5">
+            <div class="form-group row">
+            <div class="col-sm-5" style="width: 100%;">
                 <input [(ngModel)]="filter" class="form-control" placeholder="Insira o email, rgm ou cpf">
             </div>
         </div>
@@ -12,13 +11,14 @@
             <a routerLink="/alunos/cadastro" class="btn btn-sm btn-success mb-2">Novo Aluno</a>
         </div>
 
-        <table class="table table-striped">
-            <thead>
+        <div class="table-responsive-sm">
+            <table class="table">
+                <thead class="theadColor">
                 <tr>
-                    <th style="width: 30%">Nome</th>
-                    <th style="width: 30%">Sobrenome</th>
-                    <th style="width: 30%">RGM</th>
-                    <th style="width: 10%"></th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Sobrenome</th>
+                    <th scope="col">RGM</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -34,18 +34,19 @@
                             <span *ngIf="!user.isDeleting">Deletar</span>
                         </button>
                     </td>
-                </tr>
-                <tr *ngIf="!usuarioFiltered && !notFound">
-                    <td colspan="4" class="text-center">
-                        <span class="spinner-border spinner-border-lg align-center"></span>
-                    </td>
-                </tr>
-                <tr *ngIf="notFound">
-                    <td colspan="4" class="text-center">
-                        <span class="align-center">Sem alunos cadastrados</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            </tr>
+            <tr *ngIf="!usuarioFiltered && !notFound">
+                <td colspan="4" class="text-center">
+                    <span class="spinner-border spinner-border-lg align-center"></span>
+                </td>
+            </tr>
+            <tr *ngIf="notFound">
+                <td colspan="4" class="bg-secondary bg-gradient text-white text-center">
+                    <span class=" align-center">Sem alunos cadastrados</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
     </div>
 </div>
