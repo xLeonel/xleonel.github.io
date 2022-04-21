@@ -4,45 +4,73 @@
 
         <div class="form-group row">
             <div class="col-sm-5">
-                <input [(ngModel)]="filter" class="form-control" placeholder="Insira o email, rgm ou cpf">
+                <input [(ngModel)]="filter" class="form-control" placeholder="Insira o nome da materia, curso ou data">
             </div>
         </div>
-        
+
         <div style="display: flex;justify-content: end;">
             <a routerLink="/alunos/cadastro" class="btn btn-sm btn-success mb-2">Nova Aula</a>
         </div>
 
         <div class="table-responsive">
             <table class="table table-striped">
-                <thead>
+                <thead class="theadColor">
                     <tr>
-                        <th style="width: 30%">Aula</th>
+                        <th style="width: 30%">Curso</th>
                         <th style="width: 30%">Materia</th>
-                        <th style="width: 30%">Professor</th>
-                        <th style="width: 10%"></th>
+                        <th style="width: 30%">Inicio</th>
+                        <th style="width: 30%">Fim</th>
+                        <th style="width: 30%"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let aula of aulasFiltered">
-                        <td>{{aula.curso.nome}}</td>
+                    <tr (click)="openModal(aula)" data-bs-toggle="modal" data-bs-target="#modalAula"class="trPrincipal" *ngFor="let aula of aulasFiltered">
+                        <td>{{aula.curso.nome}}</td>               
                         <td>{{aula.materia.nome}}</td>
-                        <td>{{aula.professor.nome}}</td>
+                        <td>{{aula.inicio | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td>{{aula.fim | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                         <td style="white-space: nowrap">
-                            <a routerLink="/aulas/editar/{{aula.id}}" class="btn btn-sm btn-primary mr-1">Visualizar</a>                   
-                        </td>
-                    </tr>
-                    <tr *ngIf="!aulasFiltered && !notFound">
-                        <td colspan="4" class="text-center">
-                            <span class="spinner-border spinner-border-lg align-center"></span>
-                        </td>
-                    </tr>
-                    <tr *ngIf="notFound">
-                        <td colspan="4" class="text-center">
+                            <button (click)="openModal(aula)" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#modalAula">
+                            Visualizar
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!aulasFiltered && !notFound">
+                    <td colspan="4" class="text-center">
+                        <span class="spinner-border spinner-border-lg align-center"></span>
+                    </td>
+                </tr>
+                <tr *ngIf="notFound">
+                    <td colspan="4" class="text-center">
                         <span class="align-center">Sem aulas cadastrados</span>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalAula" tabindex="-1" aria-labelledby="modalAulaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAulaLabel">Alunos Presentes:</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" *ngIf="aulaModal">
+                        <div *ngFor="let alunos of aulaModal.alunos">
+                            <p>Nome: {{alunos.nome}}</p> 
+                        </div>
+
+                        <p *ngIf="aulaModal.alunos.length == 0">sem alunos presentes</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
+    </div>

@@ -44,6 +44,9 @@
                 </tbody>
             </table>
         </div>
+        <div *ngIf="!carregado" class="text-center">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+            <p>Carregando...</p>
         </div>
     </div>
 </div>

@@ -23,15 +23,18 @@ export class PresencaComponent implements OnInit {
 
   numeroFalta = 0;
   zeroFaltas = false;
+  carregado = false;
 
   set filter(value: string) {
     this.filterBy = value;
 
     if (this.filterBy.includes('/') || this.isNum(this.filterBy)) {
-      this.aulasFiltered = this.aulas.filter((aula: Aula) => formatDate(aula.inicio, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1 || formatDate(aula.fim, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1);
+      this.aulasFiltered = this.aulas.filter((aula: Aula) => formatDate(aula.inicio, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1 || formatDate(aula.fim, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1)
+      .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
     }
     else {
-      this.aulasFiltered = this.aulas.filter((aula: Aula) => aula.materia.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1 || aula.professor.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1);
+      this.aulasFiltered = this.aulas.filter((aula: Aula) => aula.materia.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1 || aula.professor.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1)
+      .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
     }
   }
 
@@ -47,7 +50,7 @@ export class PresencaComponent implements OnInit {
     this.aulasService.getAllByAluno(this.user.id).subscribe({
       next: aulas => {
         this.aulas = aulas;
-        this.aulasFiltered = this.aulas;
+        this.aulasFiltered = this.aulas.sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
 
         this.aulasService.getAulaBySemestre(this.user.semestre).subscribe({
           next: aulasSemestre => {
@@ -60,6 +63,8 @@ export class PresencaComponent implements OnInit {
             if (this.numeroFalta === 0) {
               this.zeroFaltas = true;
             }
+
+            this.carregado = true;
           },
           error: e => {
             this.alertService.error(e);
