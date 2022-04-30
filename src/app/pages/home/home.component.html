@@ -1,7 +1,6 @@
 <div class="p-4">
     <div class="container">
-        <h1>olá {{user.nome}}!</h1>
-        <p>perfil: {{user.tipoUsuario | trataTipoUser}}</p>
+        <h1 class="mb-4">Olá, {{user.tipoUsuario | trataTipoUser}} {{user.nome}}!</h1>
         <div *ngIf="isProfessor">
             <div [hidden]="!aulaAtual">
                 <h3>Iniciar Aula</h3>
@@ -62,7 +61,7 @@
         </div>
 
         <div *ngIf="isAluno">
-            <button *ngIf="!scannerAtivo" (click)="HabilitarScanner()" class="btn btn-primary">
+            <button *ngIf="!scannerAtivo && !presencaValidada && habilitarLerQrCode" (click)="HabilitarScanner()" class="btn btn-primary">
                 Ler QR Code
             </button>
 
@@ -71,17 +70,12 @@
             </div>
 
             <div *ngIf="scannerAtivo">
-                <div *ngIf="availableDevices">
-                    <select (change)="onDeviceSelectChange($event)">
-                        <option value="" [selected]="!selectedDevice">No Device</option>
-                        <option *ngFor="let device of availableDevices" [value]="device.deviceId" [selected]="selectedDevice && device.deviceId === selectedDevice.deviceId">{{ device.label }}</option>
-                    </select>
-                </div>
-
-                <div *ngIf="hasCameras">
+                <div>       
                     <div *ngIf="!qrCodeLido">
-                        <zxing-scanner [formats]="formatoQRCode" #scanner class="test-class" start="true"
-                            (scanSuccess)="lerQRCode($event)" [device]="selectedDevice" cssClass="small-video"></zxing-scanner>
+                        <zxing-scanner [formats]="formatoQRCode"
+                            (scanSuccess)="lerQRCode($event)"
+                            (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)">
+                        </zxing-scanner>
                     </div>
 
                     <p>
@@ -104,6 +98,17 @@
             </div>
         </div>
 
+        <div *ngIf="isAdmin">
+            <div class="mb4">
+            <p class="text-white d-none">gambits</p>
+            <p class="text-white ">gambits</p> 
+            </div>
+            <body class="imageCentraliza ">
+                <div>
+                    <img src="assets/admHome.svg" style="width: 500px; height: 300px;" class="img-fluid" alt="...">
+                  </div>
+            </body>
+        </div>
 
 
     </div>

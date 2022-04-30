@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Aula } from '../models/aula';
+import { Semestre } from '../models/semestre';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class AulaService {
   getAulaById(idAula: number) {
     return this.http.get<Aula[]>(`${environment.apiUrl}/aulas/${idAula}`);
   }
+
+  getAulaBySemestre(semestre: Semestre) {
+    return this.http.get<Aula[]>(`${environment.apiUrl}/aulas/semestre/${semestre}`);
+  }
+
 
   getAllByProfessor(idProfessor: number) {
     return this.http.get<Aula[]>(`${environment.apiUrl}/aulas/professor/${idProfessor}`);

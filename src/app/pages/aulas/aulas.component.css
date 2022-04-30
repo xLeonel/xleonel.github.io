@@ -1,0 +1,14 @@
+@media (max-width: 800px) {
+    .trPrincipal td:nth-child(5) {
+       display: none;
+    }
+
+    thead tr th:nth-child(5) {
+       display: none;
+    }
+  }
+
+.theadColor{
+    background-color: #01376d;
+    color: white;
+}

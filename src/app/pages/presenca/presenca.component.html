@@ -1,0 +1,52 @@
+<div class="p-4">
+    <div class="container">
+        <h1>Presenças</h1>
+
+        <div class="form-group row">
+            <div class="col-sm-5" style="width: 100%;">
+                <input [(ngModel)]="filter" class="form-control"
+                    placeholder="Insira o nome da materia, professor ou data">
+            </div>
+        </div>
+
+        <div *ngIf="numeroFalta || zeroFaltas">
+            <h3>Você tem {{numeroFalta}} faltas.</h3>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="theadColor">
+                        <tr>
+                            <th style="width: 20%">Curso</th>
+                            <th style="width: 20%">Materia</th>
+                            <th style="width: 20%">Professor</th>
+                            <th style="width: 20%">Inicio</th>
+                            <th style="width: 20%">Fim</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let aula of aulasFiltered">
+                            <td>{{aula.curso.nome}}</td>
+                            <td>{{aula.materia.nome}}</td>
+                            <td>{{aula.professor.nome}}</td>
+                            <td>{{aula.inicio | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{aula.fim | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                        </tr>
+                        <tr *ngIf="!aulasFiltered && !notFound">
+                            <td colspan="4" class="text-center">
+                                <span class="spinner-border spinner-border-lg align-center"></span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="notFound">
+                            <td colspan="4" class="text-center">
+                                <span class="align-center">Você não tem presença em nenhuma aula</span>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="!carregado" class="text-center">
+            <span class="spinner-border spinner-border-lg align-center"></span>
+            <p>Carregando...</p>
+        </div>
+    </div>
+</div>

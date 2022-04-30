@@ -1,10 +1,20 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
-  <div class="navbar-nav">
-      <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-      <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active" *ngIf="user.tipoUsuario == tipoAluno">Presencas</a>
-      <a class="nav-item nav-link" routerLink="/aulas" routerLinkActive="active" *ngIf="user.tipoUsuario == tipoProf || tipoAdm">Aulas</a>
-      <a class="nav-item nav-link" routerLink="/professores" routerLinkActive="active" *ngIf="user.tipoUsuario == tipoAdm">Professores</a>
-      <a class="nav-item nav-link" routerLink="/alunos" routerLinkActive="active" *ngIf="user.tipoUsuario == tipoAdm">Alunos</a>
-      <a class="nav-item nav-link" (click)="logout()">Sair</a>
+<nav class="navbar navbar-expand navbar-dark bgPrimary text-white" *ngIf="user">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <a *ngIf="user.tipoUsuario == tipoAluno || user.tipoUsuario == tipoProf" class="navbar-brand" href="#">
+      <img src="assets/logonavBar.png" width="80%" alt="">
+    </a>
+    <ul class="navbar-nav mr-auto justify-content-center">
+      <a class="nav-item nav-link" routerLink="/" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a class="nav-item nav-link" routerLink="/presencas" routerLinkActive="active"
+        *ngIf="user.tipoUsuario == tipoAluno">Presenças</a>
+      <a class="nav-item nav-link" routerLink="/aulas" routerLinkActive="active"
+        *ngIf="user.tipoUsuario == tipoProf">Aulas</a>
+      <a class="nav-item nav-link" routerLink="/professores" routerLinkActive="active"
+        *ngIf="user.tipoUsuario == tipoAdm">Professores</a>
+      <a class="nav-item nav-link" routerLink="/alunos" routerLinkActive="active"
+        *ngIf="user.tipoUsuario == tipoAdm">Alunos</a>
+    </ul>
+    <a class="nav-item nav-link hoverSair" (click)="logout()">Sair</a>
   </div>
 </nav>
