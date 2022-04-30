@@ -19,7 +19,7 @@ export class User {
 }
 
 export enum TipoUser {
-    aluno,
+    adm = 1,
     professor,
-    adm
+    aluno,
 }

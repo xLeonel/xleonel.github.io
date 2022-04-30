@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4000'
+  // apiUrl: 'https://localhost:5000'
+  // apiUrl: 'https://unicheckapi.azure-api.net/api'
+  apiUrl: 'https://unicheck20220421000504.azurewebsites.net'
 };
 
 /*
