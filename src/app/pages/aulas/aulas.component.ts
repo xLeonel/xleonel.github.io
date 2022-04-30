@@ -5,6 +5,7 @@ import { AulaService } from '../../services/aula.service';
 import { AccountService } from '../../services/account.service';
 import { AlertService } from '../../services/alert.service';
 import { formatDate } from '@angular/common';
+import { Token } from '../../models/token';
 
 @Component({
   selector: 'app-aulas',
@@ -13,25 +14,25 @@ import { formatDate } from '@angular/common';
 })
 export class AulasComponent implements OnInit {
   private aulas: Aula[] = [];
-  private user: any;
-
+  private token!: Token;
+  
   aulasFiltered: Aula[] = [];
   filterBy!: string;
   aulaModal!: Aula;
 
   notFound = false;
   exibirModal = false;
-  
+
   set filter(value: string) {
     this.filterBy = value;
 
     if (this.filterBy.includes('/') || this.isNum(this.filterBy)) {
       this.aulasFiltered = this.aulas.filter((aula: Aula) => formatDate(aula.inicio, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1 || formatDate(aula.fim, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1)
-      .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
+        .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
     }
     else {
       this.aulasFiltered = this.aulas.filter((aula: Aula) => aula.materia.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1 || aula.curso.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1)
-      .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
+        .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
     }
   }
 
@@ -41,10 +42,10 @@ export class AulasComponent implements OnInit {
 
   constructor(private accountService: AccountService,
     private aulasService: AulaService,
-    private alertService: AlertService) { this.accountService.user.subscribe(x => this.user = x) }
+    private alertService: AlertService) { this.accountService.token.subscribe(x => this.token = x); }
 
   ngOnInit() {
-    this.aulasService.getAllByProfessor(this.user.id)
+    this.aulasService.getAllByProfessor(this.token.idUser)
       .pipe(first())
       .subscribe(
         aulas => {

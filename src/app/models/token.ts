@@ -1,16 +1,18 @@
 import { TipoUser } from "./user";
 
-export class Token {
+export class TokenResponse {
     constructor(
         public token: string,
         public validade: string,
     ) { }
 }
 
-export class TokenModel {
+export class Token {
     constructor(
         public idUser: number,
         public nomeCompleto: string,
-        public tipoUsuario: TipoUser
+        public email: string,
+        public tipoUsuario: TipoUser,
+        public token: string
     ) { }
 }

@@ -49,7 +49,7 @@ export class CadastroComponent implements OnInit {
 
     ngOnInit() {
         // direciona pra home se ja tiver um usuario logado
-        if (this.accountService.userValue) {
+        if (this.accountService.token) {
             this.router.navigate(['/']);
         }
 

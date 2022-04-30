@@ -1,13 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertService } from '../../services/alert.service';
 import { AulaService } from '../../services/aula.service';
-import { TipoUser, User } from '../../models/user';
+import { TipoUser } from '../../models/user';
 import { AccountService } from '../../services/account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Materia } from '../../models/materia';
 import { BarcodeFormat } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-import { Aula } from 'src/app/models/aula';
+import { Aula } from '../../models/aula';
+import { Token } from '../../models/token';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
   private aulas!: Aula[];
 
   materias: Materia[] = [];
-  user!: User;
+  token!: Token;
   form!: FormGroup;
   loading = false;
   submitted = false;
@@ -38,15 +39,15 @@ export class HomeComponent implements OnInit {
   valueQRCode = '';
 
   get isAluno() {
-    return this.user.tipoUsuario === TipoUser.aluno;
+    return this.token.tipoUsuario === TipoUser.aluno;
   }
 
   get isProfessor() {
-    return this.user.tipoUsuario === TipoUser.professor;
+    return this.token.tipoUsuario === TipoUser.professor;
   }
 
   get isAdmin() {
-    return this.user.tipoUsuario === TipoUser.adm;
+    return this.token.tipoUsuario === TipoUser.adm;
   }
 
   //get form fields
@@ -56,13 +57,13 @@ export class HomeComponent implements OnInit {
     private aulasService: AulaService,
     private alertService: AlertService,
     private formBuilder: FormBuilder) {
-    this.accountService.user.subscribe(x => this.user = x);
+      this.accountService.token.subscribe(x => this.token = x);
   }
 
   ngOnInit(): void {
     if (this.isProfessor) {
 
-      this.aulasService.getAllByProfessor(this.user.id).subscribe({
+      this.aulasService.getAllByProfessor(this.token.idUser).subscribe({
         next: aulas => {
           this.aulas = aulas;
           this.ValidarAula();
@@ -80,7 +81,7 @@ export class HomeComponent implements OnInit {
     }
 
     if (this.isAluno) {
-      this.aulasService.getAllByAluno(this.user.id).subscribe({
+      this.aulasService.getAllByAluno(this.token.idUser).subscribe({
         next: aulas => {
           this.aulas = aulas;
 
@@ -145,25 +146,25 @@ export class HomeComponent implements OnInit {
 
       this.loading = true;
 
-      let aula = new Aula(0, this.user, this.formulario['curso'].value, this.formulario['materia'].value, horaInicio, horaFim, [])
+      // let aula = new Aula(0, this.user, this.formulario['curso'].value, this.formulario['materia'].value, horaInicio, horaFim, [])
 
-      this.aulasService.register(aula).subscribe({
-        next: idAula => {
-          this.valueQRCode = `${idAula}`;
+      // this.aulasService.register(aula).subscribe({
+      //   next: idAula => {
+      //     this.valueQRCode = `${idAula}`;
 
-          this.exibirQRCode = true;
-          this.aulaAtual = false;
-        },
-        error: e => {
-          this.alertService.error(e);
-          this.loading = false;
-        }
-      });
+      //     this.exibirQRCode = true;
+      //     this.aulaAtual = false;
+      //   },
+      //   error: e => {
+      //     this.alertService.error(e);
+      //     this.loading = false;
+      //   }
+      // });
     }
   }
 
   PreencherMaterias(event: any) {
-    this.materias = this.user.curso.find(c => c.id === parseInt(event.target.value))!.materias;
+    // this.materias = this.user.curso.find(c => c.id === parseInt(event.target.value))!.materias;
   }
 
   lerQRCode(resultString: string) {
@@ -171,7 +172,7 @@ export class HomeComponent implements OnInit {
     this.qrResultString = resultString;
 
 
-    this.aulasService.update(resultString, this.user.id).subscribe({
+    this.aulasService.update(resultString, this.token.idUser).subscribe({
       next: () => {
         this.alertService.success('presença validada');
         this.presencaValidada = true;

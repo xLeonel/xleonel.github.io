@@ -1,6 +1,6 @@
 <div class="p-4">
     <div class="container">
-        <h1 class="mb-4">Olá, {{user.tipoUsuario | trataTipoUser}} {{user.nome}}!</h1>
+        <h1 class="mb-4">Olá, {{token.tipoUsuario | trataTipoUser}} {{token.nomeCompleto}}!</h1>
         <div *ngIf="isProfessor">
             <div [hidden]="!aulaAtual">
                 <h3>Iniciar Aula</h3>
@@ -21,9 +21,9 @@
                             [ngClass]="{ 'is-invalid': submitted && formulario['curso'].errors }" class="form-select"
                             required>
                             <option selected disabled value="">Selecione o curso</option>
-                            <option *ngFor="let curso of user.curso" [ngValue]="curso">
+                            <!-- <option *ngFor="let curso of user.curso" [ngValue]="curso">
                                 {{curso.nome}}
-                            </option>
+                            </option> -->
                         </select>
 
                         <div *ngIf="submitted && formulario['curso'].errors" class="invalid-feedback">

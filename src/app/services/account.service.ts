@@ -5,40 +5,52 @@ import { HttpClient } from '@angular/common/http';
 import { TipoUser, User } from '../models/user';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { Token, TokenResponse } from '../models/token';
+import jwt_decode from "jwt-decode";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccountService {
-    private userSubject: BehaviorSubject<any>;
-    public user: Observable<User>;
+    private tokenSubject!: BehaviorSubject<Token>;
+    public token!: Observable<Token>;
+
+    public get tokenValue(): Token {
+        return this.tokenSubject.value;
+    }
 
     constructor(
         private router: Router,
         private http: HttpClient
     ) {
-        this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('usuario')!));
-        this.user = this.userSubject.asObservable();
+        this.tokenSubject = new BehaviorSubject<Token>(null!);
+        this.token = this.tokenSubject.asObservable();
     }
 
-    public get userValue(): User {
-        return this.userSubject.value;
-    }
-
-    login(acesso: string, senha: string) {
-        return this.http.post<User>(`${environment.apiUrl}/login`, { acesso, senha })
-            .pipe(map(user => {
+    login(emailCpfRgm: string, senha: string) {
+        return this.http.post<TokenResponse>(`${environment.apiUrl}/login`, { emailCpfRgm, senha })
+            .pipe(map(response => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('usuario', JSON.stringify(user));
-                this.userSubject.next(user);
-                return user;
+                let tokenDecode: any = jwt_decode(response.token);
+
+                let idUser = parseInt(tokenDecode['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']);
+                let nomeCompleto = tokenDecode['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+                let email = tokenDecode['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+                let tipoUser = parseInt(tokenDecode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']) === TipoUser.aluno ?
+                    TipoUser.aluno : parseInt(tokenDecode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']) === TipoUser.professor ?
+                        TipoUser.professor : TipoUser.adm;
+
+
+                this.tokenSubject.next(new Token(idUser, nomeCompleto, email, tipoUser, response.token));
+
+                return response;
             }));
     }
 
     logout() {
         // remove user from local storage and set current user to null
-        localStorage.removeItem('usuario');
-        this.userSubject.next(null);
+        this.tokenSubject.next(null!);
+
         this.router.navigate(['/login']);
     }
 
@@ -62,13 +74,8 @@ export class AccountService {
         return this.http.put(`${environment.apiUrl}/users/${id}`, params)
             .pipe(map(x => {
                 // update stored user if the logged in user updated their own record
-                if (id == this.userValue.id) {
-                    // update local storage
-                    const user = { ...this.userValue, ...params };
-                    localStorage.setItem('user', JSON.stringify(user));
-
-                    // publish updated user to subscribers
-                    this.userSubject.next(user);
+                if (id == this.tokenValue.idUser) {
+                    //todo: atualizar o token caso o email, senha seja atualizado
                 }
                 return x;
             }));
@@ -78,7 +85,7 @@ export class AccountService {
         return this.http.delete(`${environment.apiUrl}/users/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
-                if (id == this.userValue.id) {
+                if (id == this.tokenValue.idUser) {
                     this.logout();
                 }
                 return x;

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs';
 import { AccountService } from '../../services/account.service';
 import { AlertService } from '../../services/alert.service';
 import { AulaService } from '../../services/aula.service';
 import { Aula } from '../../models/aula';
 import { formatDate } from '@angular/common';
+import { Token } from '../../models/token';
 
 @Component({
   selector: 'app-presenca',
@@ -14,7 +14,7 @@ import { formatDate } from '@angular/common';
 export class PresencaComponent implements OnInit {
   private aulas: Aula[] = [];
   private aulasSemestres: Aula[] = [];
-  private user: any;
+  private token!: Token;
 
   aulasFiltered: Aula[] = [];
   filterBy!: string;
@@ -44,32 +44,32 @@ export class PresencaComponent implements OnInit {
 
   constructor(private accountService: AccountService,
     private aulasService: AulaService,
-    private alertService: AlertService) { this.accountService.user.subscribe(x => this.user = x) }
+    private alertService: AlertService) { this.accountService.token.subscribe(x => this.token = x) }
 
   ngOnInit() {
-    this.aulasService.getAllByAluno(this.user.id).subscribe({
+    this.aulasService.getAllByAluno(this.token.idUser).subscribe({
       next: aulas => {
         this.aulas = aulas;
         this.aulasFiltered = this.aulas.sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
 
-        this.aulasService.getAulaBySemestre(this.user.semestre).subscribe({
-          next: aulasSemestre => {
-            this.aulasSemestres = aulasSemestre;
+        // this.aulasService.getAulaBySemestre(this.user.semestre).subscribe({
+        //   next: aulasSemestre => {
+        //     this.aulasSemestres = aulasSemestre;
     
-            let quantidadeFalta = this.aulasSemestres.length - this.aulas.length;
+        //     let quantidadeFalta = this.aulasSemestres.length - this.aulas.length;
             
-            this.numeroFalta = quantidadeFalta;
+        //     this.numeroFalta = quantidadeFalta;
 
-            if (this.numeroFalta === 0) {
-              this.zeroFaltas = true;
-            }
+        //     if (this.numeroFalta === 0) {
+        //       this.zeroFaltas = true;
+        //     }
 
-            this.carregado = true;
-          },
-          error: e => {
-            this.alertService.error(e);
-          }
-        });
+        //     this.carregado = true;
+        //   },
+        //   error: e => {
+        //     this.alertService.error(e);
+        //   }
+        // });
       },
       error: e => {
         this.alertService.error(e);
