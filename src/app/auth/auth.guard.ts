@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const token = this.accountService.tokenValue;
+
     if (token) {
       // check a permissao do usuario
       if (route.data['permissao'] && route.data['permissao'].indexOf(token.tipoUsuario) === -1) {
@@ -21,6 +22,11 @@ export class AuthGuard implements CanActivate {
         return false;
       }
       // authorised so return true
+      return true;
+    }
+
+    if (history.state?.rota) {
+      this.router.navigate([`/${history.state.rota}`]);
       return true;
     }
 

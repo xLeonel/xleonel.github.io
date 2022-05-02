@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'professores', component: ProfessoresComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm] } },
   { path: 'professores/editar/:id', component: AddEditComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm], tipoExibicao: TipoUser.professor } },
   { path: 'professores/cadastro', component: AddEditComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm], tipoExibicao: TipoUser.professor } },
-  { path: 'presencas', component: PresencaComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.aluno] }},
+  { path: 'presencas', component: PresencaComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.aluno] } },
   { path: '**', redirectTo: '' }
 ];
 

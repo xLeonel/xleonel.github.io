@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Token, TokenResponse } from '../models/token';
 import jwt_decode from "jwt-decode";
+import { Periodo } from '../models/periodo';
 
 @Injectable({
     providedIn: 'root'
@@ -54,8 +55,20 @@ export class AccountService {
         this.router.navigate(['/login']);
     }
 
-    register(user: User) {
-        return this.http.post(`${environment.apiUrl}/cadastro`, user);
+    register(user: any) {
+        let userModel = {
+            email: user.email,
+            senha: user.senha,
+            nome: user.nome,
+            sobrenome: user.sobrenome,
+            cpf: user.cpf,
+            rgm: user.rgm,
+            idperiodo: Periodo[user.periodo],
+            idcurso: user.curso.idCurso,
+            idsemestre: user.semestre
+        }
+
+        return this.http.post(`${environment.apiUrl}/alunos`, userModel);
     }
 
     getAll() {
