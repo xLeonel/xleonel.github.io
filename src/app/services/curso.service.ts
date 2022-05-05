@@ -14,4 +14,8 @@ export class CursoService {
   getAll() {
     return this.http.get<Curso[]>(`${environment.apiUrl}/cursos`);
   }
+
+  getAllCursosByProfessor() {
+    return this.http.get<Curso[]>(`${environment.apiUrl}/cursos/professor`);
+  }
 }

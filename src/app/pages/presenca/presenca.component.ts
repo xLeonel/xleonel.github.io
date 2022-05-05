@@ -5,6 +5,8 @@ import { AulaService } from '../../services/aula.service';
 import { Aula } from '../../models/aula';
 import { formatDate } from '@angular/common';
 import { Token } from '../../models/token';
+import { AulaModel } from 'src/app/models/aula-model';
+import { PresencaService } from '../../services/presenca.service';
 
 @Component({
   selector: 'app-presenca',
@@ -12,29 +14,29 @@ import { Token } from '../../models/token';
   styleUrls: ['./presenca.component.css']
 })
 export class PresencaComponent implements OnInit {
-  private aulas: Aula[] = [];
-  private aulasSemestres: Aula[] = [];
+  private aulas: AulaModel[] = [];
   private token!: Token;
 
-  aulasFiltered: Aula[] = [];
+  aulasFiltered: AulaModel[] = [];
   filterBy!: string;
 
   notFound = false;
 
   numeroFalta = 0;
-  zeroFaltas = false;
   carregado = false;
+
+  apiFaltasCarregada = false;
 
   set filter(value: string) {
     this.filterBy = value;
 
     if (this.filterBy.includes('/') || this.isNum(this.filterBy)) {
-      this.aulasFiltered = this.aulas.filter((aula: Aula) => formatDate(aula.inicio, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1 || formatDate(aula.fim, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1)
-      .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
+      this.aulasFiltered = this.aulas.filter((aula: AulaModel) => formatDate(aula.inicio, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1 || formatDate(aula.fim, 'dd/MM/yyyy', 'en-US').indexOf(this.filterBy) > -1)
+        .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
     }
     else {
-      this.aulasFiltered = this.aulas.filter((aula: Aula) => aula.materia.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1 || aula.professor.nome.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1)
-      .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
+      this.aulasFiltered = this.aulas.filter((aula: AulaModel) => aula.materia.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1 || aula.nomeProfessor.toLocaleLowerCase().indexOf(this.filterBy.toLocaleLowerCase()) > -1)
+        .sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
     }
   }
 
@@ -43,33 +45,30 @@ export class PresencaComponent implements OnInit {
   }
 
   constructor(private accountService: AccountService,
-    private aulasService: AulaService,
+    private presencaService: PresencaService,
     private alertService: AlertService) { this.accountService.token.subscribe(x => this.token = x) }
 
   ngOnInit() {
-    this.aulasService.getAllByAluno(this.token.idUser).subscribe({
+    this.presencaService.getAllByAluno().subscribe({
       next: aulas => {
         this.aulas = aulas;
         this.aulasFiltered = this.aulas.sort((a, b) => new Date(b.inicio).getTime() - new Date(a.inicio).getTime());
 
-        // this.aulasService.getAulaBySemestre(this.user.semestre).subscribe({
-        //   next: aulasSemestre => {
-        //     this.aulasSemestres = aulasSemestre;
-    
-        //     let quantidadeFalta = this.aulasSemestres.length - this.aulas.length;
-            
-        //     this.numeroFalta = quantidadeFalta;
+        this.presencaService.getFaltasByAluno().subscribe({
+          next: objFaltas => {
+            this.carregado = true;
+            this.apiFaltasCarregada = true;
 
-        //     if (this.numeroFalta === 0) {
-        //       this.zeroFaltas = true;
-        //     }
+            this.numeroFalta = objFaltas.totalFaltas;
 
-        //     this.carregado = true;
-        //   },
-        //   error: e => {
-        //     this.alertService.error(e);
-        //   }
-        // });
+          },
+          error: e => {
+            this.carregado = true;
+            this.apiFaltasCarregada = true;
+
+            this.alertService.error(e);
+          }
+        });
       },
       error: e => {
         this.alertService.error(e);

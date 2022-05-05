@@ -11,7 +11,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './auth/jwt.interceptor';
 import { ErrorInterceptor } from './auth/error.interceptor';
-import { FakeBackendInterceptor } from './auth/fake-backend';
 import { AlertaComponent } from './components/alerta/alerta.component';
 import { TrataTipoUserPipe } from './pipes/trata-tipo-user.pipe';
 import { AlunosComponent } from './pages/alunos/alunos.component';
@@ -48,8 +47,7 @@ import { PresencaComponent } from './pages/presenca/presenca.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

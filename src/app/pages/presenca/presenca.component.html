@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div *ngIf="numeroFalta || zeroFaltas">
+        <div *ngIf="apiFaltasCarregada">
             <h3>Você tem {{numeroFalta}} faltas.</h3>
 
             <div class="table-responsive">
@@ -25,9 +25,9 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let aula of aulasFiltered">
-                            <td>{{aula.curso.nome}}</td>
-                            <td>{{aula.materia.nome}}</td>
-                            <td>{{aula.professor.nome}}</td>
+                            <td>{{aula.curso}}</td>
+                            <td>{{aula.materia}}</td>
+                            <td>{{aula.nomeProfessor}}</td>
                             <td>{{aula.inicio | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                             <td>{{aula.fim | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                         </tr>
@@ -41,12 +41,12 @@
                                 <span class="align-center">Você não tem presença em nenhuma aula</span>
                             </td>
                         </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div *ngIf="!carregado" class="text-center">
             <span class="spinner-border spinner-border-lg align-center"></span>
             <p>Carregando...</p>
         </div>
     </div>
-</div>

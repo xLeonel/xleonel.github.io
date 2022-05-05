@@ -7,8 +7,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Materia } from '../../models/materia';
 import { BarcodeFormat } from '@zxing/library';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-import { Aula } from '../../models/aula';
 import { Token } from '../../models/token';
+import { AulaModel } from '../../models/aula-model';
+import { Aula } from '../../models/aula';
+import { first } from 'rxjs';
+import { PresencaService } from '../../services/presenca.service';
+import { CursoService } from '../../services/curso.service';
+import { Curso } from '../../models/curso';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +21,9 @@ import { Token } from '../../models/token';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private aulas!: Aula[];
+  private aulas!: AulaModel[];
 
+  cursosProfessor: Curso[] = []
   materias: Materia[] = [];
   token!: Token;
   form!: FormGroup;
@@ -29,6 +35,7 @@ export class HomeComponent implements OnInit {
   qrCodeLido = false;
   presencaValidada = false;
   habilitarLerQrCode = false;
+  carregado = false;
 
   @ViewChild('scanner')
   scanner!: ZXingScannerComponent;
@@ -55,20 +62,26 @@ export class HomeComponent implements OnInit {
 
   constructor(private accountService: AccountService,
     private aulasService: AulaService,
+    private presencaService: PresencaService,
     private alertService: AlertService,
+    private cursoService: CursoService,
     private formBuilder: FormBuilder) {
-      this.accountService.token.subscribe(x => this.token = x);
+    this.accountService.token.subscribe(x => this.token = x);
   }
 
   ngOnInit(): void {
     if (this.isProfessor) {
-
-      this.aulasService.getAllByProfessor(this.token.idUser).subscribe({
+      this.aulasService.getAllByProfessor().subscribe({
         next: aulas => {
+          this.carregado = true;
+
           this.aulas = aulas;
+
           this.ValidarAula();
         },
         error: e => {
+          this.carregado = true;
+          
           this.alertService.error(e);
         }
       });
@@ -81,28 +94,32 @@ export class HomeComponent implements OnInit {
     }
 
     if (this.isAluno) {
-      this.aulasService.getAllByAluno(this.token.idUser).subscribe({
-        next: aulas => {
-          this.aulas = aulas;
+      this.presencaService.getAllByAluno()
+        .pipe(first())
+        .subscribe(
+          aulas => {
+            this.carregado = true;
 
-          let dateAgora = new Date(Date.now()).toLocaleString();
+            this.aulas = aulas;
 
-          this.aulas.map(a => {
-            if (dateAgora >= new Date(a.inicio).toLocaleString() && dateAgora <= new Date(a.fim).toLocaleString()) {
-              this.presencaValidada = true;
-              return;
+            let dateAgora = new Date(Date.now()).toLocaleString();
+
+            this.aulas.map(a => {
+              if (dateAgora >= new Date(a.inicio).toLocaleString() && dateAgora <= new Date(a.fim).toLocaleString()) {
+                this.presencaValidada = true;
+                return;
+              }
+            })
+
+            if (!this.presencaValidada) {
+              this.habilitarLerQrCode = true;
             }
-          })
+          },
+          error => {
+            this.carregado = true;
 
-          if (!this.presencaValidada) {
-            this.habilitarLerQrCode = true;
-          }
-
-        },
-        error: e => {
-          this.alertService.error(e);
-        }
-      });
+            this.alertService.error(error);
+          });
     }
   }
 
@@ -118,6 +135,15 @@ export class HomeComponent implements OnInit {
     else {
       this.exibirQRCode = false;
       this.aulaAtual = true;
+
+      this.cursoService.getAllCursosByProfessor().subscribe({
+        next: cursos => {
+          this.cursosProfessor = cursos;
+        },
+        error: e => {
+          this.alertService.error(e);
+        }
+      });
     }
   }
 
@@ -146,25 +172,24 @@ export class HomeComponent implements OnInit {
 
       this.loading = true;
 
-      // let aula = new Aula(0, this.user, this.formulario['curso'].value, this.formulario['materia'].value, horaInicio, horaFim, [])
+      this.aulasService.cadastro(this.form.value).subscribe({
+        next: aula => {
+          this.valueQRCode = `${aula.idAula}`;
 
-      // this.aulasService.register(aula).subscribe({
-      //   next: idAula => {
-      //     this.valueQRCode = `${idAula}`;
-
-      //     this.exibirQRCode = true;
-      //     this.aulaAtual = false;
-      //   },
-      //   error: e => {
-      //     this.alertService.error(e);
-      //     this.loading = false;
-      //   }
-      // });
+          this.exibirQRCode = true;
+          this.aulaAtual = false;
+        },
+        error: e => {
+          this.alertService.error(e);
+          this.loading = false;
+        }
+      });
     }
   }
 
-  PreencherMaterias(event: any) {
-    // this.materias = this.user.curso.find(c => c.id === parseInt(event.target.value))!.materias;
+  PreencherMaterias(curso: Curso) {
+    this.materias = this.cursosProfessor.find(c => c.id === curso.id)!.materias
+      .sort((a, b) => a.nome.localeCompare(b.nome));
   }
 
   lerQRCode(resultString: string) {
@@ -172,7 +197,7 @@ export class HomeComponent implements OnInit {
     this.qrResultString = resultString;
 
 
-    this.aulasService.update(resultString, this.token.idUser).subscribe({
+    this.presencaService.cadastro(parseInt(resultString)).subscribe({
       next: () => {
         this.alertService.success('presença validada');
         this.presencaValidada = true;
