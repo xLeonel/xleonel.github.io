@@ -93,6 +93,9 @@ export class CadastroComponent implements OnInit {
                 if (e.Rgm)
                     this.alertService.error(e.Rgm[0]);
 
+                if (e.mensagem)
+                    this.alertService.error(e.mensagem);
+                    
                 this.loading = false;
             }
         });
