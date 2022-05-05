@@ -1,5 +1,5 @@
 export enum Periodo {
-    manha,
+    manha = 1,
     tarde,
     noite,
     integral

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { TipoUser, User } from '../../models/user';
+import { Component } from '@angular/core';
+import { Token } from '../../models/token';
+import { TipoUser } from '../../models/user';
 import { AccountService } from '../../services/account.service';
 
 @Component({
@@ -12,10 +13,10 @@ export class NavbarComponent {
   tipoAdm = TipoUser.adm;
   tipoProf = TipoUser.professor;
 
-  user!: User;
+  token!: Token;
 
   constructor(private accountService: AccountService) {
-    this.accountService.user.subscribe(x => this.user = x);
+    this.accountService.token.subscribe(x => this.token = x);
   }
 
   logout() {

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         // direciona pra home se ja tiver um usuario logado
-        if (this.accountService.userValue) {
+        if (this.accountService.token) {
             this.router.navigate(['/']);
         }
 
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         this.accountService.login(this.formulario['username'].value, this.formulario['password'].value)
             .pipe(first())
             .subscribe(
-                data => {
+                () => {
                     this.router.navigate(['/']); //home
                 },
                 error => {

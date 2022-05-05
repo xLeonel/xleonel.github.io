@@ -49,7 +49,7 @@ export class CadastroComponent implements OnInit {
 
     ngOnInit() {
         // direciona pra home se ja tiver um usuario logado
-        if (this.accountService.userValue) {
+        if (this.accountService.token) {
             this.router.navigate(['/']);
         }
 
@@ -81,17 +81,21 @@ export class CadastroComponent implements OnInit {
 
         this.loading = true;
 
-        this.accountService.register(this.form.value)
-            .pipe(first())
-            .subscribe(
-                () => {
-                    // this.alertService.success('Cadastrado com sucesso', { keepAfterRouteChange: true });
-                    this.router.navigate(['/login'], { relativeTo: this.route });
-                },
-                error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                });
+        this.accountService.register(this.form.value).subscribe({
+            next: () => {
+                // this.alertService.success('Cadastrado com sucesso', { keepAfterRouteChange: true });
+                this.router.navigate(['/login'], { relativeTo: this.route });
+            },
+            error: e => {
+                if (e.Cpf)
+                    this.alertService.error(e.Cpf[0]);
+
+                if (e.Rgm)
+                    this.alertService.error(e.Rgm[0]);
+
+                this.loading = false;
+            }
+        });
     }
 
     KeyFromPeriodo(key: string) {

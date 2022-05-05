@@ -40,7 +40,7 @@
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Login
               </button>
-              <p>Não possui conta ainda? <a routerLink="/cadastro" class="text-blue-50 fw-bold">Cadastre-se</a></p>
+              <p>Não possui conta ainda? <a routerLink="/cadastro" [state]="{ rota : 'cadastro' }" class="text-blue-50 fw-bold">Cadastre-se</a></p>
             </form>
           </div>
         </div>
