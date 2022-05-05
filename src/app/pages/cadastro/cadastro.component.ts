@@ -87,15 +87,19 @@ export class CadastroComponent implements OnInit {
                 this.router.navigate(['/login'], { relativeTo: this.route });
             },
             error: e => {
+                
                 if (e.Cpf)
+                {
                     this.alertService.error(e.Cpf[0]);
-
-                if (e.Rgm)
+                }
+                else if (e.Rgm)
+                {
                     this.alertService.error(e.Rgm[0]);
+                }
+                else {
+                    this.alertService.error(e);
+                }
 
-                if (e.mensagem)
-                    this.alertService.error(e.mensagem);
-                    
                 this.loading = false;
             }
         });
