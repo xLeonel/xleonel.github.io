@@ -77,11 +77,6 @@
                             (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)">
                         </zxing-scanner>
                     </div>
-
-                    <p>
-                        Result:
-                        <strong>{{ qrResultString }}</strong>
-                    </p>
                 </div>
 
                 <div *ngIf="!hasCameras">

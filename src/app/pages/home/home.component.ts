@@ -41,7 +41,6 @@ export class HomeComponent implements OnInit {
   scanner!: ZXingScannerComponent;
   hasCameras = false;
   hasPermission!: boolean;
-  qrResultString!: string;
   formatoQRCode = [BarcodeFormat.QR_CODE];
   valueQRCode = '';
 
@@ -196,9 +195,7 @@ export class HomeComponent implements OnInit {
 
   lerQRCode(resultString: string) {
     this.qrCodeLido = true;
-    this.qrResultString = resultString;
-
-
+    
     this.presencaService.cadastro(parseInt(resultString)).subscribe({
       next: () => {
         this.alertService.success('presença validada');
