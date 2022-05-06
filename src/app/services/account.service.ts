@@ -64,7 +64,7 @@ export class AccountService {
             cpf: user.cpf,
             rgm: user.rgm,
             idperiodo: Periodo[user.periodo],
-            idcurso: user.curso.idCurso,
+            idcurso: user.curso.id,
             idsemestre: user.semestre
         }
 

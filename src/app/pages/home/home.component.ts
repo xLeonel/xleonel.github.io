@@ -129,6 +129,8 @@ export class HomeComponent implements OnInit {
     const aulaAtual = this.aulas.find(a => horaAtual >= new Date(a.inicio).toLocaleString() && horaAtual <= new Date(a.fim).toLocaleString())
 
     if (aulaAtual) {
+      this.valueQRCode = `${aulaAtual.idAula}`;
+
       this.exibirQRCode = true;
       this.aulaAtual = false;
     }
