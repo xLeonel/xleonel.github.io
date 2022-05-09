@@ -48,6 +48,14 @@ export class HomeComponent implements OnInit {
   hasPermission!: boolean;
   formatoQRCode = [BarcodeFormat.QR_CODE];
   valueQRCode = '';
+  msg = '';
+
+  getUserLocation = function (onSuccess: any, onError: any) {
+    // Bust the call stack so Safari doesn't choke.
+    setTimeout(function () {
+      navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    });
+  };
 
   mapOptions!: google.maps.MapOptions;
 
@@ -223,40 +231,47 @@ export class HomeComponent implements OnInit {
   }
 
   async HabilitarScanner() {
-    this.localizacao = await this.localizacaoService.getLocation().then(localizacao => {
-      return localizacao;
+
+    this.getUserLocation(function (position: any) {
+      console.log('you are here: ' + position.coords.latitude + ', ' + position.coords.longitude);
+    }, function (err: any) {
+      console.log('oh noes! ' + err)
     });
 
-    if (!this.localizacao) {
-      this.alertService.warn('Por favor habilite a localização para podermos registrar sua presença');
-      this.carregado = true;
-      return;
-    }
-
-    if (this.calcularDistancia(this.localizacao) > 0.7) {
-      this.alertService.error('Você não pode registrar sua presença pois está a mais de 700m da Unicid.');
-      this.carregado = true;
-
-      this.mapOptions = {
-        center: {
-          lat: this.localizacao.latitude,
-          lng: this.localizacao.longitude
-        },
-        zoom: 14,
-        zoomControl: false,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false
+    this.localizacao = await this.localizacaoService.getLocation().then(localizacao => {
+      this.localizacao = localizacao;
+      
+      if (!this.localizacao) {
+        this.alertService.warn('Por favor habilite a localização para podermos registrar sua presença');
+        this.carregado = true;
+        return;
       }
 
-      this.markers.push({
-        position: { lat: this.localizacao.latitude, lng: this.localizacao.longitude }
-      });
+      if (this.calcularDistancia(this.localizacao) > 0.7) {
+        this.alertService.error('Você não pode registrar sua presença pois está a mais de 700m da Unicid.');
+        this.carregado = true;
 
-      this.exibirMapa = true;
+        this.mapOptions = {
+          center: {
+            lat: this.localizacao.latitude,
+            lng: this.localizacao.longitude
+          },
+          zoom: 14,
+          zoomControl: false,
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false
+        }
 
-      return;
-    }
+        this.markers.push({
+          position: { lat: this.localizacao.latitude, lng: this.localizacao.longitude }
+        });
+
+        this.exibirMapa = true;
+      }
+
+      return localizacao;
+    });
 
     this.scannerAtivo = true;
   }
