@@ -81,41 +81,6 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.localizacao = await this.localizacaoService.getLocation().then(localizacao => {
-      return localizacao;
-    });
-
-    if (!this.localizacao) {
-      this.alertService.warn('Por favor habilite a localização para podermos registrar sua presença');
-      this.carregado = true;
-      return;
-    }
-
-    if (this.calcularDistancia(this.localizacao) > 0.7) {
-      this.alertService.error('Você não pode registrar sua presença pois está a mais de 700m da Unicid.');
-      this.carregado = true;
-
-      this.mapOptions = {
-        center: {
-          lat: this.localizacao.latitude,
-          lng: this.localizacao.longitude
-        },
-        zoom: 14,
-        zoomControl: false,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false
-      }
-
-      this.markers.push({
-        position: { lat: this.localizacao.latitude, lng: this.localizacao.longitude }
-      });
-
-      this.exibirMapa = true;
-
-      return;
-    }
-
     if (this.isProfessor) {
       this.aulasService.getAllByProfessor().subscribe({
         next: aulas => {
@@ -257,7 +222,42 @@ export class HomeComponent implements OnInit {
 
   }
 
-  HabilitarScanner() {
+  async HabilitarScanner() {
+    this.localizacao = await this.localizacaoService.getLocation().then(localizacao => {
+      return localizacao;
+    });
+
+    if (!this.localizacao) {
+      this.alertService.warn('Por favor habilite a localização para podermos registrar sua presença');
+      this.carregado = true;
+      return;
+    }
+
+    if (this.calcularDistancia(this.localizacao) > 0.7) {
+      this.alertService.error('Você não pode registrar sua presença pois está a mais de 700m da Unicid.');
+      this.carregado = true;
+
+      this.mapOptions = {
+        center: {
+          lat: this.localizacao.latitude,
+          lng: this.localizacao.longitude
+        },
+        zoom: 14,
+        zoomControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false
+      }
+
+      this.markers.push({
+        position: { lat: this.localizacao.latitude, lng: this.localizacao.longitude }
+      });
+
+      this.exibirMapa = true;
+
+      return;
+    }
+
     this.scannerAtivo = true;
   }
 
