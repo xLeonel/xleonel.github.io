@@ -20,31 +20,31 @@ export class LocalizacaoService {
       navigator.permissions.query({ name: 'geolocation' })
         .then((result) => {
           /* result.state will be 'granted', 'denied', or 'error' */
-          if (result.state === 'granted') {
-            navigator.geolocation.getCurrentPosition(position => {
-              const longitude = position.coords.longitude;
-              const latitude = position.coords.latitude;
-              resolve(new Localizacao(latitude, longitude));
-
-            }, (error) => {
-              /* System/OS location services disabled */
-              console.log('System/OS services disabled', navigator);
-              resolve(undefined);
-            }, navigatorLocationOptions);
-
-          } else if (result.state.toLowerCase() === 'denied') {
-            resolve(undefined);
-          } else {
-            /* Browser location services disabled or error */
-            console.log('Browser location services disabled', navigator);
+          if (result.state.toLowerCase() === 'denied') {
             resolve(undefined);
           }
+          // } else {
+          //   /* Browser location services disabled or error */
+          //   console.log('Browser location services disabled', navigator);
+          //   resolve(undefined);
+          // }
         }, (error) => {
           /* Browser doesn't support querying for permissions */
           console.log('Browser permissions services unavailable', navigator);
           resolve(undefined);
         }
         );
+
+      navigator.geolocation.getCurrentPosition(position => {
+        const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
+        resolve(new Localizacao(latitude, longitude));
+
+      }, (error) => {
+        /* System/OS location services disabled */
+        console.log('System/OS services disabled', navigator);
+        resolve(undefined);
+      }, navigatorLocationOptions);
 
     });
   }
