@@ -46,7 +46,7 @@ export class LocalizacaoService {
           console.log('System/OS services disabled', navigator);
           resolve(undefined);
         }, navigatorLocationOptions);
-      });
+      }, 500);
 
 
     });
