@@ -14,6 +14,8 @@ import { first } from 'rxjs';
 import { PresencaService } from '../../services/presenca.service';
 import { CursoService } from '../../services/curso.service';
 import { Curso } from '../../models/curso';
+import { LocalizacaoService } from '../../services/localizacao.service';
+import { Localizacao } from '../../models/localizacao';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,8 @@ import { Curso } from '../../models/curso';
 })
 export class HomeComponent implements OnInit {
   private aulas!: AulaModel[];
+  private localizacao: Localizacao | undefined;
+  private localizacaoUnicid = new Localizacao(-23.535990, -46.559890);
 
   cursosProfessor: Curso[] = []
   materias: Materia[] = [];
@@ -36,6 +40,7 @@ export class HomeComponent implements OnInit {
   presencaValidada = false;
   habilitarLerQrCode = false;
   carregado = false;
+  exibirMapa = false;
 
   @ViewChild('scanner')
   scanner!: ZXingScannerComponent;
@@ -43,6 +48,12 @@ export class HomeComponent implements OnInit {
   hasPermission!: boolean;
   formatoQRCode = [BarcodeFormat.QR_CODE];
   valueQRCode = '';
+
+  mapOptions!: google.maps.MapOptions;
+
+  markerUnicid = { position: { lat: this.localizacaoUnicid.latitude, lng: this.localizacaoUnicid.longitude } };
+
+  markers = [this.markerUnicid];
 
   get isAluno() {
     return this.token.tipoUsuario === TipoUser.aluno;
@@ -64,11 +75,47 @@ export class HomeComponent implements OnInit {
     private presencaService: PresencaService,
     private alertService: AlertService,
     private cursoService: CursoService,
+    private localizacaoService: LocalizacaoService,
     private formBuilder: FormBuilder) {
     this.accountService.token.subscribe(x => this.token = x);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.localizacao = await this.localizacaoService.getLocation().then(localizacao => {
+      return localizacao;
+    });
+
+    if (!this.localizacao) {
+      this.alertService.warn('Por favor habilite a localização para podermos registrar sua presença');
+      this.carregado = true;
+      return;
+    }
+
+    if (this.calcularDistancia(this.localizacao) > 0.7) {
+      this.alertService.error('Você não pode registrar sua presença pois está a mais de 700m da Unicid.');
+      this.carregado = true;
+
+      this.mapOptions = {
+        center: {
+          lat: this.localizacao.latitude,
+          lng: this.localizacao.longitude
+        },
+        zoom: 14,
+        zoomControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false
+      }
+
+      this.markers.push({
+        position: { lat: this.localizacao.latitude, lng: this.localizacao.longitude }
+      });
+
+      this.exibirMapa = true;
+
+      return;
+    }
+
     if (this.isProfessor) {
       this.aulasService.getAllByProfessor().subscribe({
         next: aulas => {
@@ -80,7 +127,7 @@ export class HomeComponent implements OnInit {
         },
         error: e => {
           this.carregado = true;
-          
+
           this.alertService.error(e);
         }
       });
@@ -195,7 +242,7 @@ export class HomeComponent implements OnInit {
 
   lerQRCode(resultString: string) {
     this.qrCodeLido = true;
-    
+
     this.presencaService.cadastro(parseInt(resultString)).subscribe({
       next: () => {
         this.alertService.success('presença validada');
@@ -220,6 +267,25 @@ export class HomeComponent implements OnInit {
 
   onCamerasFound(devices: MediaDeviceInfo[]): void {
     this.hasCameras = Boolean(devices && devices.length);
+  }
+
+  private calcularDistancia(localizacaoUser: Localizacao): number {
+
+    var R = 6371; // radio da terra em km
+    var dLat = this.deg2rad(this.localizacaoUnicid.latitude - localizacaoUser.latitude);  // deg2rad below
+    var dLon = this.deg2rad(this.localizacaoUnicid.longitude - localizacaoUser.longitude);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(localizacaoUser.latitude)) * Math.cos(this.deg2rad(this.localizacaoUnicid.latitude)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var distancia = R * c; // Distance em km
+    return distancia;
+  }
+
+  private deg2rad(deg: number) {
+    return deg * (Math.PI / 180)
   }
 }
 

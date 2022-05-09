@@ -1,6 +1,13 @@
 <div class="p-4">
     <div class="container">
         <h2 class="mb-4">Olá, {{token.nomeCompleto}}!</h2>
+
+        <div *ngIf="exibirMapa">
+            <google-map [options]="mapOptions">
+                <map-marker *ngFor="let marker of markers" [position]="marker.position"></map-marker>
+            </google-map>
+        </div>
+
         <div *ngIf="isProfessor">
             <div [hidden]="!aulaAtual">
                 <h3>Iniciar Aula</h3>
@@ -61,7 +68,8 @@
         </div>
 
         <div *ngIf="isAluno">
-            <button *ngIf="!scannerAtivo && !presencaValidada && habilitarLerQrCode" (click)="HabilitarScanner()" class="btn btn-primary">
+            <button *ngIf="!scannerAtivo && !presencaValidada && habilitarLerQrCode" (click)="HabilitarScanner()"
+                class="btn btn-primary">
                 Ler QR Code
             </button>
 
@@ -70,10 +78,9 @@
             </div>
 
             <div *ngIf="scannerAtivo">
-                <div>       
+                <div>
                     <div *ngIf="!qrCodeLido">
-                        <zxing-scanner [formats]="formatoQRCode"
-                            (scanSuccess)="lerQRCode($event)"
+                        <zxing-scanner [formats]="formatoQRCode" (scanSuccess)="lerQRCode($event)"
                             (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)">
                         </zxing-scanner>
                     </div>
@@ -95,13 +102,14 @@
 
         <div *ngIf="isAdmin">
             <div class="mb4">
-            <p class="text-white d-none">gambits</p>
-            <p class="text-white ">gambits</p> 
+                <p class="text-white d-none">gambits</p>
+                <p class="text-white ">gambits</p>
             </div>
+
             <body class="imageCentraliza ">
                 <div>
                     <img src="assets/admHome.svg" style="width: 500px; height: 300px;" class="img-fluid" alt="...">
-                  </div>
+                </div>
             </body>
         </div>
 

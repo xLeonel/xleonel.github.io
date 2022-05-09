@@ -21,6 +21,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QRCodeModule } from 'angularx-qrcode';
 import { PresencaComponent } from './pages/presenca/presenca.component';
 import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha
     HttpClientModule,
     FormsModule,
     ZXingScannerModule,
-    QRCodeModule
+    QRCodeModule,
+    GoogleMapsModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
