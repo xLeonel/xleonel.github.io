@@ -1,0 +1,41 @@
+<section class="vh-100 overflow-auto" style="background-color: #01376d;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-4">
+
+            <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-center">
+                <img class="mb-4" style="width: 100%;" src="assets/logo.png">
+              </div>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="recuperarSenha()">
+
+              <div class="form-outline mb-4">
+                <label class="form-label" for="email">Email</label>
+                <input type="email" formControlName="email" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && formulario['email'].errors }"
+                  placeholder="Insira seu email, rgm ou cpf" />
+                <div *ngIf="submitted && formulario['email'].errors" class="invalid-feedback">
+                  <div *ngIf="formulario['email'].errors['required']">Email é obrigatório</div>
+                  <div *ngIf="formulario['email'].errors['email']">Email inválido</div>
+                </div>
+              </div>
+
+              <button [disabled]="loading || timeoutEmail" class="btn btn-block mb-4"
+                style="background-color: #00346d; color: #fff;">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+
+                <ng-container *ngIf="!timeoutEmail">Enviar email</ng-container>
+                <ng-container *ngIf="timeoutEmail">Disponivel para envio: {{tempo}}s</ng-container>
+              </button>
+              <p><a routerLink="/login" class="text-blue-50 fw-bold">Voltar</a></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

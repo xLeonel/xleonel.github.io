@@ -10,11 +10,13 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PresencaComponent } from './pages/presenca/presenca.component';
 import { ProfessoresComponent } from './pages/professores/professores.component';
+import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'cadastro', component: CadastroComponent },
+  { path: 'recuperar-senha', component: RecuperarSenhaComponent },
   { path: 'aulas', component: AulasComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.professor] } },
   { path: 'alunos', component: AlunosComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm] } },
   { path: 'alunos/editar/:id', component: AddEditComponent, canActivate: [AuthGuard], data: { permissao: [TipoUser.adm], tipoExibicao: TipoUser.aluno } },

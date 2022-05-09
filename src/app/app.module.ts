@@ -20,6 +20,7 @@ import { AulasComponent } from './pages/aulas/aulas.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QRCodeModule } from 'angularx-qrcode';
 import { PresencaComponent } from './pages/presenca/presenca.component';
+import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PresencaComponent } from './pages/presenca/presenca.component';
     AddEditComponent,
     ProfessoresComponent,
     AulasComponent,
-    PresencaComponent
+    PresencaComponent,
+    RecuperarSenhaComponent
   ],
   imports: [
     BrowserModule,

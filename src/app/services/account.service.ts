@@ -104,4 +104,12 @@ export class AccountService {
                 return x;
             }));
     }
+
+    RecuperarSenha(email: string) {
+        let model = {
+            email
+        }
+        
+        return this.http.post<User[]>(`${environment.apiUrl}/login/recuperarsenha`, model);
+    }
 }
