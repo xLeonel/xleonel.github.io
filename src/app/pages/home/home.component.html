@@ -68,7 +68,7 @@
         </div>
 
         <div *ngIf="isAluno">
-            <button *ngIf="!scannerAtivo && !presencaValidada && habilitarLerQrCode" (click)="HabilitarScanner()"
+            <button *ngIf="!scannerAtivo && !presencaValidada && habilitarLerQrCode && !exibirMapa" (click)="HabilitarScanner()"
                 class="btn btn-primary">
                 Ler QR Code
             </button>
