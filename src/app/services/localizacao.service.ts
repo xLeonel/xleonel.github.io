@@ -35,16 +35,19 @@ export class LocalizacaoService {
         }
         );
 
-      navigator.geolocation.getCurrentPosition(position => {
-        const longitude = position.coords.longitude;
-        const latitude = position.coords.latitude;
-        resolve(new Localizacao(latitude, longitude));
+      setTimeout(function () {
+        navigator.geolocation.getCurrentPosition(position => {
+          const longitude = position.coords.longitude;
+          const latitude = position.coords.latitude;
+          resolve(new Localizacao(latitude, longitude));
 
-      }, (error) => {
-        /* System/OS location services disabled */
-        console.log('System/OS services disabled', navigator);
-        resolve(undefined);
-      }, navigatorLocationOptions);
+        }, (error) => {
+          /* System/OS location services disabled */
+          console.log('System/OS services disabled', navigator);
+          resolve(undefined);
+        }, navigatorLocationOptions);
+      });
+
 
     });
   }
