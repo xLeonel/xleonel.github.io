@@ -48,14 +48,6 @@ export class HomeComponent implements OnInit {
   hasPermission!: boolean;
   formatoQRCode = [BarcodeFormat.QR_CODE];
   valueQRCode = '';
-  msg = '';
-
-  getUserLocation = function (onSuccess: any, onError: any) {
-    // Bust the call stack so Safari doesn't choke.
-    setTimeout(function () {
-      navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    });
-  };
 
   mapOptions!: google.maps.MapOptions;
 
@@ -232,46 +224,45 @@ export class HomeComponent implements OnInit {
 
   async HabilitarScanner() {
 
-    this.getUserLocation(function (position: any) {
-      console.log('you are here: ' + position.coords.latitude + ', ' + position.coords.longitude);
-    }, function (err: any) {
-      console.log('oh noes! ' + err)
+    this.localizacao = await this.getUserLocation().then(local => {
+      return local;
     });
 
-    this.localizacao = await this.localizacaoService.getLocation().then(localizacao => {
-      this.localizacao = localizacao;
-      
-      if (!this.localizacao) {
-        this.alertService.warn('Por favor habilite a localização para podermos registrar sua presença');
-        this.carregado = true;
-        return;
+    console.log(this.localizacao)
+
+    // this.localizacao = await this.localizacaoService.getLocation().then(localizacao => {
+    //   this.localizacao = localizacao;
+    //   return localizacao;
+    // });
+
+    if (!this.localizacao) {
+      this.alertService.warn('Por favor habilite a localização para podermos registrar sua presença');
+      this.carregado = true;
+      return;
+    }
+
+    if (this.calcularDistancia(this.localizacao) > 0.7) {
+      this.alertService.error('Você não pode registrar sua presença pois está a mais de 700m da Unicid.');
+      this.carregado = true;
+
+      this.mapOptions = {
+        center: {
+          lat: this.localizacao.latitude,
+          lng: this.localizacao.longitude
+        },
+        zoom: 14,
+        zoomControl: false,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false
       }
 
-      if (this.calcularDistancia(this.localizacao) > 0.7) {
-        this.alertService.error('Você não pode registrar sua presença pois está a mais de 700m da Unicid.');
-        this.carregado = true;
+      this.markers.push({
+        position: { lat: this.localizacao.latitude, lng: this.localizacao.longitude }
+      });
 
-        this.mapOptions = {
-          center: {
-            lat: this.localizacao.latitude,
-            lng: this.localizacao.longitude
-          },
-          zoom: 14,
-          zoomControl: false,
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: false
-        }
-
-        this.markers.push({
-          position: { lat: this.localizacao.latitude, lng: this.localizacao.longitude }
-        });
-
-        this.exibirMapa = true;
-      }
-
-      return localizacao;
-    });
+      this.exibirMapa = true;
+    }
 
     this.scannerAtivo = true;
   }
@@ -302,6 +293,26 @@ export class HomeComponent implements OnInit {
   private deg2rad(deg: number) {
     return deg * (Math.PI / 180)
   }
+
+  private getUserLocation = function (): Promise<Localizacao | undefined> {
+    return new Promise<Localizacao | undefined>((resolve) => {
+      // Bust the call stack so Safari doesn't choke.
+      setTimeout(function () {
+        const navigatorLocationOptions = {
+          enableHighAccuracy: true,
+          // timeout: 5000,
+          // maximumAge: 0
+        };
+
+        navigator.geolocation.getCurrentPosition((position) => {
+          resolve(new Localizacao(position.coords.latitude, position.coords.longitude));
+        }, (error) => {
+          resolve(undefined);
+        }, navigatorLocationOptions);
+      });
+
+    });
+  };
 }
 
 
