@@ -262,6 +262,8 @@ export class HomeComponent implements OnInit {
       });
 
       this.exibirMapa = true;
+      
+      return;
     }
 
     this.scannerAtivo = true;
