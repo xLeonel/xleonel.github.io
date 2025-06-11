@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vale Cupom - Dia dos Namorados</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(238, 156, 167, 0.2);
+            padding: 40px 32px 32px 32px;
+            max-width: 370px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hearts {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            color: #ee9ca7;
+            animation: float 2s infinite alternate;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(10px);
+            }
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #ee9ca7;
+            margin-bottom: 8px;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            color: #b24592;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .cupom {
+            background: linear-gradient(90deg, #ee9ca7 0%, #ffdde1 100%);
+            border-radius: 16px;
+            padding: 24px 16px;
+            margin: 24px 0;
+            box-shadow: 0 4px 16px rgba(238, 156, 167, 0.15);
+            font-size: 1.2rem;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .cupom::before,
+        .cupom::after {
+            content: "💖";
+            position: absolute;
+            font-size: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .cupom::before {
+            left: 12px;
+        }
+
+        .cupom::after {
+            right: 12px;
+        }
+
+        .assinatura {
+            margin-top: 32px;
+            color: #b24592;
+            font-family: 'Pacifico', cursive;
+            font-size: 1.1rem;
+        }
+
+        .botao {
+            margin-top: 24px;
+            background: #ee9ca7;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-family: 'Roboto', Arial, sans-serif;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(238, 156, 167, 0.15);
+        }
+
+        .botao:hover {
+            background: #b24592;
+        }
+
+        .mensagem {
+            display: none;
+            margin-top: 20px;
+            color: #ee9ca7;
+            font-size: 1.1rem;
+            font-family: 'Pacifico', cursive;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px 8px 16px 8px;
+                max-width: 95vw;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hearts">💕💕</div>
+        <h1>Feliz Dia dos Namorados!</h1>
+        <div class="subtitle">Para a pessoa mais especial do mundo 💌</div>
+        <div class="cupom">
+            Vale 1 Limpeza de Pele <br>
+            (com direito a muito carinho!)
+        </div>
+        <button class="botao" onclick="mostrarMensagem()">Resgatar Cupom</button>
+        <div class="mensagem" id="mensagem">
+            Te amo! <br>
+            É só mostrar esse cupom para mim e agendar seu momento de cuidado. 💖
+        </div>
+        <div class="assinatura">
+            Com amor, <br>
+            Vitor
+        </div>
+    </div>
+    <script>
+        function mostrarMensagem() {
+            // document.getElementById('mensagem').style.display = 'block';
+
+            // Substitua o número abaixo pelo seu número com DDI e DDD, exemplo: 5521999999999
+            var numero = '5511991195734';
+            var mensagem = encodeURIComponent("Fofuchoo, fazzzzzz o pix da minha limpeza de pele. Te amo muitaoooo 😍💖");
+            window.open(`https://wa.me/${numero}?text=${mensagem}`, '_blank');
+        }
+    </script>
+</body>
+
+</html>
